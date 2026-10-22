@@ -9,7 +9,7 @@ export function playSequence(root:HTMLElement,beats:SequenceBeat[],reduced:boole
  const overlay=document.createElement('div');overlay.className='pcm-cinema';overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');overlay.setAttribute('aria-label','Battle cinematic');
  const scenery=document.createElement('div');scenery.className='pcm-flyover';scenery.setAttribute('aria-hidden','true');
  const board=showScenery?root.querySelector('.pcm-board')?.cloneNode(true) as HTMLElement|undefined:undefined;
- if(board){board.querySelectorAll<HTMLElement>('[data-model]').forEach(el=>{for(const key of Object.keys(el.dataset))delete el.dataset[key];el.classList.remove('model-ready');});board.querySelectorAll('button').forEach(b=>{b.tabIndex=-1;b.disabled=true;});scenery.append(board);}
+ if(board){board.classList.remove('pcm-perspective-ready');board.querySelectorAll<HTMLElement>('[data-model]').forEach(el=>{for(const key of Object.keys(el.dataset))delete el.dataset[key];el.classList.remove('model-ready');});board.querySelectorAll('button').forEach(b=>{b.tabIndex=-1;b.disabled=true;});scenery.append(board);}
  overlay.append(scenery);const stage=document.createElement('div');stage.className='pcm-cinema-stage';overlay.append(stage);
  const skip=document.createElement('button');skip.textContent='Skip sequence →';skip.className='pcm-skip';overlay.append(skip);
  const locked=Array.from(root.children).filter((el):el is HTMLElement=>el instanceof HTMLElement&& !el.classList.contains('pcm-model-layer'));

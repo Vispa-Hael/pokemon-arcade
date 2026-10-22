@@ -1,5 +1,13 @@
 # Pocket Capsule Monsters
 
+## Version 1.3: perspective coliseum
+
+Battles now default to one shared 3D arena: a raised stone plinth, solid tiles, trees, broken ruins, glowing capsule pedestals, surrounding pillars, directional light, fog and cast shadows. Pokémon occupy world-space tile positions and animate between them. Floating labels show names and HP; the side panel retains the larger figure inspection view. Terrain height is decorative; existing combat, directional patterns, resonance and saved-match rules remain intact.
+
+Drag the battlefield to orbit; scroll or pinch to zoom. Camera presets offer Perspective, Overhead and Other side. Classic grid restores the previous presentation; unavailable WebGL leaves that grid playable. Camera changes do not spend AP or alter saves. Existing keyboard tile controls remain available, with focus highlighted in the arena. Mobile uses touch orbit/pinch; scroll outside the battlefield to scroll the page.
+
+`arena.ts` owns scenery, camera controls and world-space picking. Pointer picking includes the real Pokémon meshes and their bases, while ignoring hit particles and labels; this prevents invisible effects from stealing nearby tile clicks. Picking is tested through perspective, reverse and overhead cameras. Scenery resources and camera listeners are released on unmount. The existing shared renderer continues to serve the squad picker, inspection views, cutscenes and classic grid.
+
 Launch `#/games/pocket-capsule-monsters` in Pokémon Arcade. Runs in the static production build and reads the existing offline CharacterDatabase. No disc files, legacy adapters, external requests, or game-to-game imports are required.
 
 ## Version 1.2
