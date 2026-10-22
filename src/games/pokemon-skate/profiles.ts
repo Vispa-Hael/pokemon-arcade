@@ -1,0 +1,5 @@
+import type {CharacterDatabase, Stats} from '../../data/model';
+export interface Profile {id:number;name:string;color:string;ability:string;endurance:number;pop:number;stability:number;flair:number;focus:number;pace:number;offset:number}
+export const placeholder:Profile={id:0,name:'Test rider',color:'#f3b853',ability:'Practice focus',endurance:1,pop:1,stability:1,flair:1,focus:1,pace:1,offset:0};
+export function attributes(stats:Stats){const n=(v:number)=>.9+.2*Math.max(0,Math.min(1,(v-30)/100));return {endurance:n(stats.hp),pop:n(stats.attack),stability:n(stats.defense),flair:n(stats.specialAttack),focus:n(stats.specialDefense),pace:n(stats.speed)};}
+export function profiles(db:CharacterDatabase):Profile[]{return [{id:25,color:'#f8ce4b',ability:'Quick spark',offset:0},{id:7,color:'#69d6dc',ability:'Shell balance',offset:.05},{id:66,color:'#9ac5cc',ability:'Power pop',offset:.1},{id:94,color:'#b99af6',ability:'Phantom flair',offset:.12}].flatMap(p=>{const f=db.getForm(p.id,['stats','displayName']);return f?.stats?[{...p,name:f.displayName,...attributes(f.stats)}]:[]});}

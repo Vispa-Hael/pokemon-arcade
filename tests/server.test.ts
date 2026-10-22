@@ -1,0 +1,7 @@
+import {beforeAll,afterAll,it,expect} from 'vitest';
+import {createServer,type ViteDevServer} from 'vite';
+let server:ViteDevServer,base:string;
+beforeAll(async()=>{server=await createServer({server:{host:'127.0.0.1',port:0,strictPort:false},logLevel:'silent'});await server.listen();const address=server.httpServer!.address();if(!address||typeof address==='string')throw Error('No test server');base=`http://127.0.0.1:${address.port}`;});
+afterAll(async()=>{await server?.close()});
+it('serves hub and reports legacy availability without exposing source folders',async()=>{const hub=await fetch(base);expect(hub.status).toBe(200);expect(await hub.text()).toContain('src/main.ts');const availability=await (await fetch(base+'/api/legacy-status')).json();expect(typeof availability.chess).toBe('boolean');expect(typeof availability.arena).toBe('boolean');for(const id of ['chess','arena']){if(availability[id]){const res=await fetch(`${base}/legacy/${id}/index.html`);expect(res.status).toBe(200);expect(res.headers.get('content-type')).toContain('text/html');expect(await res.text()).toContain('game.js');}}});
+it.each(['/legacy/chess/package.json','/legacy/arena/desktop/main.cjs','/legacy/chess/node_modules/three/package.json','/legacy/unknown/index.html','/legacy/chess/assets/%2e%2e%2fpackage.json','/legacy/arena/assets/%2e%2e%2f%2e%2e%2fPokemonTracker/AGENTS.md'])('blocks unintended local files: %s',async path=>{expect((await fetch(base+path)).status).toBe(404);});

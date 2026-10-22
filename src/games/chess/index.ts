@@ -1,0 +1,3 @@
+import type {GameModule} from '../../shared/game';
+import {legacyMount} from '../../shared/legacy';
+export default {id:'chess',name:'Pokémon Chess',description:'A familiar board. An extraordinary team. Play a friend, challenge the computer, or solve a puzzle.',instructions:'Select a piece, then a highlighted square. Choose computer, two players, or puzzles in the game sidebar. Use Undo and New battle as needed.',version:'1.0.0',route:'/games/chess',category:'Strategy',scoreKeys:[],thumbnail:'/previews/chess.jpg',status:'Playable',controls:['Mouse','Touch'],icon:'♜',mount:legacyMount('chess')} satisfies GameModule;

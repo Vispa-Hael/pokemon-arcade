@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.cache/
+*.log
+
+work/capsule-reference/
+
+# Local reference material and secrets
+work/
+.env
+.env.*
+!.env.example
+*.local
