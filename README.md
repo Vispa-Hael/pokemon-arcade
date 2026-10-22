@@ -92,7 +92,7 @@ The new portraits occupy about 132 MB. Catalog/trivia are bundled locally, with 
 
 ## Pokémon Skate
 
-Open `http://127.0.0.1:4173/#/games/pokemon-skate` or choose Pokémon Skate in the library. Pokémon Skate is a separate project in `F:\Pokemon Skate`, with its own source, assets, tests, npm dependencies and build. The arcade contains only its metadata/iframe launcher, like Chess and Arena. Build it with `npm run build` in that folder; the arcade reads its `dist` folder. Run it independently with `npm run dev` at `http://127.0.0.1:4176/`. Fully 3D Free Skate and timed Skate Run require WebGL 2. See [Skate guide and build gates](docs/POKEMON_SKATE.md) for controls, architecture, verification and current presentation limitations.
+Open `http://127.0.0.1:4173/#/games/pokemon-skate` or choose Pokémon Skate in the library. Pokémon Skate is a separate project in `F:\Pokemon Skate`, with its own source, assets, tests, npm dependencies and build. The arcade contains only its metadata/iframe launcher, like Chess and Arena. Build it with `npm run build` in that folder; the arcade reads its `dist` folder. Run it independently with `npm run dev` at `http://127.0.0.1:4176/`. Fully 3D Free Skate and timed Skate Run require WebGL 2. Easy Flow is on by default: hold W + J for continuous riding/tricks, with automatic nearby rail catches and assisted landings. See [Skate guide and build gates](docs/POKEMON_SKATE.md) for controls, architecture, verification and current presentation limitations.
 
 
 ## Hub features
@@ -102,4 +102,5 @@ The hub now includes six actual gameplay preview cards, a featured game, search/
 ## Share through GitHub Pages
 
 The build now includes browser-only Chess/Arena snapshots and supports repository subpaths. See [GitHub hosting setup](docs/GITHUB-HOSTING.md). Source attributions remain with the bundled games.
+
 
