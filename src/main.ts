@@ -16,7 +16,7 @@ const player=new PlayerServices(storage);
 const app=document.querySelector<HTMLDivElement>('#app')!;
 let cleanup:(()=>void)|undefined,revision=0,category='All',control='All',search='';
 const safe=(text:string)=>text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('"','&quot;');
-const legacy=(g:GameModule)=>g.id==='chess'||g.id==='arena';
+const legacy=(g:GameModule)=>g.id==='chess'||g.id==='arena'||g.id==='pokemon-skate';
 function previews(root:HTMLElement){root.querySelectorAll<HTMLImageElement>('img[data-preview]').forEach(img=>{const loaded=()=>img.parentElement!.classList.add('preview-ready');img.onload=loaded;img.onerror=()=>{img.hidden=true;};if(img.complete&&img.naturalWidth)loaded();});}
 function trainerMarkup(full=false){
  const stats=trainerSummary(player,games),daily=dailyStreak(player.scores('guess-daily'));
@@ -66,3 +66,4 @@ let calendarDay=dayKey();
 const calendarTimer=setInterval(()=>{const today=dayKey();if(today!==calendarDay){calendarDay=today;if(!routeGame(location.hash))void render();}},30000);
 window.addEventListener('pagehide',()=>{cleanup?.();clearInterval(calendarTimer);});
 void render();
+

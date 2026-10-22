@@ -13,4 +13,14 @@ for(const [id,list] of Object.entries(files)){
  else await cp(path.join(source,'SOURCE-README.md'),path.join(destination,'SOURCE-README.md'));
  console.log('Packaged '+id+' from '+source);
 }
-if(!process.argv.includes('--snapshot')){await writeFile(path.join(target,'status.json'),JSON.stringify({chess:true,arena:true}));await writeFile('dist/.nojekyll','');}
+// Skate owns its source/build in a separate sibling project. Only browser output is packaged.
+const skateLive=path.resolve('../Pokemon Skate/dist'),skateSnapshot=path.resolve('vendor/legacy/pokemon-skate');
+let skateSource=skateLive;
+try{await stat(path.join(skateSource,'index.html'));}catch{skateSource=skateSnapshot;}
+await stat(path.join(skateSource,'models/25.glb'));
+await stat(path.join(skateSource,'models/7.glb'));
+const skateDestination=path.resolve(target,'pokemon-skate');
+if(skateSource!==skateDestination)await cp(skateSource,skateDestination,{recursive:true});
+console.log('Packaged pokemon-skate from '+skateSource);
+if(!process.argv.includes('--snapshot')){await writeFile(path.join(target,'status.json'),JSON.stringify({chess:true,arena:true,'pokemon-skate':true}));await writeFile('dist/.nojekyll','');}
+

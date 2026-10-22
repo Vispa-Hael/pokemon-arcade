@@ -32,7 +32,8 @@ export function stepCombat(s:Run,input:Input,damageHull:(amount:number)=>void){
   if(ahead>(enemy.mount==='front'?180:130))continue;
   // Aim is visible and locks for the final 0.75 seconds before firing.
   if(enemy.timer>.75)enemy.aim=Math.round(s.target);
-  enemy.timer-=dt;
+  const oldTimer=enemy.timer;enemy.timer-=dt;
+  if(oldTimer>.75&&enemy.timer<=.75)s.message=`${enemy.height==='high'?'HIGH':'LOW'} shot locking ${enemy.aim===0?'middle':enemy.aim<0?'left':'right'} lane — ${enemy.height==='high'?'Q':'E'} cover or steer!`;
   if(enemy.timer<=0){
    const duration=.85;enemy.timer=2.1;enemy.fired++;s.incoming++;
    addShot({owner:'robber',mount:enemy.mount,fromLane:enemy.lane,fromAt:enemy.at,toLane:enemy.aim,toAt:s.distance+s.speed*duration,height:enemy.height,remaining:duration,duration,target:null,damage:18,roll:(enemy.roll+(enemy.fired-1)*.381966)%1,color:'#ff786d'});

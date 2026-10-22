@@ -17,14 +17,14 @@ export function metrics(team:Crew[]){
  return {front:weaponStats(high,'front'),side:weaponStats(low,'side'),maxSpeed:31+stat(engine,'speed')*7+stat(engine,'attack')*4+(engine.types.some(t=>['fire','electric'].includes(t))?2:0),handling:(2+stat(driver,'speed')*2+stat(scout,'specialDefense')*.7)*(driver.types.includes('normal')?1.08:1),hull:85+stat(defender,'hp')*30+team.reduce((n,c)=>n+stat(c,'hp'),0)*3,armor:clamp(.08+stat(defender,'defense')*.17+stat(defender,'specialDefense')*.05,0,.4),high:clamp(.25+stat(high,'specialAttack')*.25+(high.types.some(t=>['ghost','poison'].includes(t))?.06:0),0,.7),low:clamp(.25+stat(low,'attack')*.25+(low.types.some(t=>['ghost','poison'].includes(t))?.06:0),0,.7),mud:(scout.types.some(t=>['grass','flying'].includes(t))?.65:1)*(defender.types.includes('water')?.8:1),physical:defender.types.some(t=>['steel','rock'].includes(t))?.85:1,log:engine.types.includes('fire')?.8:1,synergy,luck:.04+synergy*.0008};
 }
 export type Metrics=ReturnType<typeof metrics>;
-export type Kind='log'|'rock'|'mud'|'high'|'low';
+export type Kind='log'|'rock'|'mud'|'high'|'low'|'supply';
 export interface Encounter {at:number;lane:number;kind:Kind;roll:number}
 export function random(seed:string){let n=2166136261;for(const c of seed)n=Math.imul(n^c.charCodeAt(0),16777619);return ()=>{n+=0x6D2B79F5;let t=Math.imul(n^(n>>>15),1|n);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};}
 export const finish=2400;
-export function course(seed:string):Encounter[]{const rng=random(seed);const result:Encounter[]=[];for(let at=180;at<finish-60;at+=65+rng()*35){result.push({at,lane:Math.floor(rng()*3)-1,kind:(['log','rock','mud','high','low'] as const)[Math.floor(rng()*5)],roll:rng()});}result[0].kind='high';result[1].kind='low';return result;}
+export function course(seed:string):Encounter[]{const rng=random(seed);const result:Encounter[]=[];for(let at=180;at<finish-60;at+=65+rng()*35){result.push({at,lane:Math.floor(rng()*3)-1,kind:(['log','rock','mud','high','low'] as const)[Math.floor(rng()*5)],roll:rng()});}result[0].kind='high';result[1].kind='low';for(const at of [560,1280,2040]){const start=Math.floor(rng()*3);const lanes=[-1,0,1];const lane=[0,1,2].map(n=>lanes[(start+n)%3]).find(l=>result.every(e=>e.kind==='high'||e.kind==='low'||Math.abs(e.at-at)>35||e.lane!==l))??0;result.push({at,lane,kind:'supply',roll:rng()});}return result.sort((a,b)=>a.at-b.at);}
 export interface Input {throttle:boolean;brake:boolean;steer:number;cover:'high'|'low'|null;cruise?:boolean}
-export interface Run extends CombatState {seed:string;team:Crew[];m:Metrics;steerDirection:number;steerRepeat:number;cover:'high'|'low'|null;hitFlash:number;events:Encounter[];next:number;ticks:number;distance:number;lane:number;target:number;speed:number;hull:number;gap:number;mud:number;cooldown:number;burst:number;swapCooldown:number;status:'running'|'won'|'lost';message:string;intercepts:number;hits:number}
-export function newRun(seed:string,team:Crew[]):Run {const m=metrics(team);return {...newCombat(),steerDirection:0,steerRepeat:0,cover:null,hitFlash:0,seed,team:[...team],m,events:course(seed),next:0,ticks:0,distance:0,lane:0,target:0,speed:26,hull:m.hull,gap:95,mud:0,cooldown:0,burst:0,swapCooldown:0,status:'running',message:'Reach the river gate. Keep your speed above the pack.',intercepts:0,hits:0};}
+export interface Run extends CombatState {seed:string;team:Crew[];m:Metrics;steerDirection:number;steerRepeat:number;cover:'high'|'low'|null;hitFlash:number;supplies:number;events:Encounter[];next:number;ticks:number;distance:number;lane:number;target:number;speed:number;hull:number;gap:number;mud:number;cooldown:number;burst:number;swapCooldown:number;status:'running'|'won'|'lost';message:string;intercepts:number;hits:number}
+export function newRun(seed:string,team:Crew[]):Run {const m=metrics(team);return {...newCombat(),steerDirection:0,steerRepeat:0,cover:null,hitFlash:0,supplies:0,seed,team:[...team],m,events:course(seed),next:0,ticks:0,distance:0,lane:0,target:0,speed:26,hull:m.hull,gap:95,mud:0,cooldown:0,burst:0,swapCooldown:0,status:'running',message:'Reach the river gate. Keep your speed above the pack.',intercepts:0,hits:0};}
 export function burstInfo(c:Crew){
  if(c.ability==='run-away')return {name:'Trail feint',effect:'Gain 14 m of beast gap',kind:'gap'};
  if(['torrent','rain-dish','water-absorb'].includes(c.ability))return {name:'River reserve',effect:'Repair 12 hull',kind:'repair'};
@@ -54,7 +54,8 @@ export function tick(s:Run,input:Input){
  const e=s.events[s.next++];if(e.kind==='high'||e.kind==='low')continue;
  if(Math.abs(s.lane-e.lane)>.46){s.message=`Evaded ${e.kind}.`;continue;}
  let damage=0;
- if(e.kind==='mud'){s.mud=3;s.message='Mud! Scout and Defender type bonuses reduce drag.';}
+ if(e.kind==='supply'){const healed=Math.min(14,s.m.hull-s.hull);s.hull=Math.min(s.m.hull,s.hull+14);s.cooldown=Math.max(0,s.cooldown-4);s.supplies++;s.impacts.push({lane:s.lane,at:s.distance,remaining:.45,color:'#bdeca2',text:`+${Math.round(healed)} HULL`});s.message='Supply cache! Hull repaired and ability cooldown reduced.';}
+ else if(e.kind==='mud'){s.mud=3;s.message='Mud! Scout and Defender type bonuses reduce drag.';}
  else{damage=e.kind==='rock'?50:40*s.m.log;s.speed=Math.max(10,s.speed-(e.kind==='rock'?10:7));s.message=`${e.kind==='rock'?'Rock impact':'Log impact'}! Steer into a clear lane.`;}
  if(damage)damageHull(damage);
  }
