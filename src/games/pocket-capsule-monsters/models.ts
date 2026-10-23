@@ -1,3 +1,4 @@
+import type {BattleDrama} from './drama';
 import {assetUrl} from '../../shared/urls';
 import * as THREE from 'three';
 import {GLTFLoader, type GLTF} from 'three/addons/loaders/GLTFLoader.js';
@@ -12,7 +13,7 @@ interface Figure {
  rect:{x:number;y:number;w:number;h:number}; from?:{x:number;y:number;w:number;h:number};
  travel:number; hit:number; attack:number; side:number; dead:boolean; loaded:boolean; exiting?:number; summon?:number; burst:THREE.Points;
 }
-export interface ModelLayer {sync:(root:HTMLElement)=>void;dispose:()=>void}
+export interface ModelLayer {drama?:(event:BattleDrama|null,progress:number)=>void;sync:(root:HTMLElement)=>void;dispose:()=>void}
 const cache=new Map<number,Promise<GLTF>>();
 const loader=new GLTFLoader();
 const axis=new THREE.Vector3(1,0,0),offset=new THREE.Quaternion();
@@ -28,7 +29,7 @@ export function createModelLayer(host:HTMLElement,reduced:boolean):ModelLayer {
  renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;
  const canvas=renderer.domElement;canvas.className='pcm-model-layer';canvas.setAttribute('aria-hidden','true');
  const camera=new THREE.PerspectiveCamera(32,1,.1,100);camera.position.set(0,1.5,3.85);camera.lookAt(0,.75,0);
- const arena=createArena(renderer);
+ const arena=createArena(renderer,reduced);
  const figures=new Map<string,Figure>();let disposed=false,frame=0,last=performance.now(),root:HTMLElement|undefined,needsLayout=true;
  let width=0,height=0;const observer=new ResizeObserver(()=>{needsLayout=true;});observer.observe(host);
  const contextLost=(e:Event)=>{e.preventDefault();root?.classList.add('pcm-model-fallback');};canvas.addEventListener('webglcontextlost',contextLost);
@@ -75,7 +76,7 @@ export function createModelLayer(host:HTMLElement,reduced:boolean):ModelLayer {
  function draw(now:number){if(disposed)return;frame=requestAnimationFrame(draw);const dt=Math.min((now-last)/1000,.05);last=now;if(!root||!root.isConnected||document.hidden)return;if(needsLayout)layout();
   renderer.setScissorTest(false);renderer.setClearColor(0x000000,0);renderer.clear();renderer.setScissorTest(true);const bounds=root.getBoundingClientRect();
   for(const f of figures.values()){
-   if(root.querySelector('.pcm-cinema')&&!f.key.startsWith('cinema-'))continue;
+   if(root.querySelector('.pcm-cinema:not([data-scenic="true"])')&&!f.key.startsWith('cinema-'))continue;
    if(f.exiting&&now-f.exiting>600){release(f);figures.delete(f.key);continue;}if(!f.loaded)continue;let r=f.rect;const moving=!!f.from&&now-f.travel<650;
    if(moving&&f.from){const t=Math.min(1,(now-f.travel)/650),e=t*t*(3-2*t);r={x:THREE.MathUtils.lerp(f.from.x,r.x,e),y:THREE.MathUtils.lerp(f.from.y,r.y,e),w:r.w,h:r.h};}else f.from=undefined;
    if(!(arena.active()&&f.key.startsWith('unit-'))&&(r.y+bounds.top+r.h<0||r.y+bounds.top>innerHeight||r.w<1||r.h<1))continue;
@@ -85,10 +86,10 @@ export function createModelLayer(host:HTMLElement,reduced:boolean):ModelLayer {
    f.pivot.scale.setScalar((arenaPiece?.65:1)*(f.exiting?Math.max(.01,1-(now-f.exiting)/600):Math.max(.01,1-summon*summon)));f.base.scale.setScalar(arenaPiece?.65:1);
    const particles=f.burst.material as THREE.PointsMaterial;particles.opacity=Math.max(hit,summon);f.burst.scale.setScalar(1+(1-Math.max(hit,summon))*.8);f.burst.rotation.y=now*.002;
    const selected=f.element.dataset.modelSelected==='true';f.ring.scale.setScalar((arenaPiece?.65:1)*(selected?1.1:1));(f.ring.material as THREE.MeshBasicMaterial).color.setHex(selected?0xffec9c:f.side===1?0xffb76c:0x7cdcff);
-   f.pivot.rotation.y=(arenaPiece?(f.side===0?Math.PI:0):(f.side===1?-.35:.30))+(reduced?0:Math.sin(time*.7)*.07);f.pivot.rotation.z=hit*Math.sin(now*.04)*.12;
+   f.pivot.rotation.y=(arenaPiece?(f.side===0?Math.PI:0):(f.side===1?-.35:.30))+(reduced?0:Math.sin(time*.7)*.07);f.pivot.rotation.z=hit*Math.sin(now*.04)*.12+(Number(f.element.dataset.modelHealth??1)<.3?.12:0);
    f.pivot.position.y=reduced?0:Math.sin(time*2)*.035+(moving?Math.abs(Math.sin((now-f.travel)*.012))*.16:0);f.body.position.z=attack*Math.sin(attack*Math.PI)*.4;
    if(f.walk&&moving){if(!f.walk.isRunning()){f.idle?.stop();f.walk.reset().play();}}else if(f.walk?.isRunning()){f.walk.stop();f.idle?.reset().play();}
-   if(!reduced)f.mixer.update(dt);
+   if(!reduced)f.mixer.update(dt*(arena.slowMotion()? .18:1));
    if(!f.idle&&!f.walk?.isRunning())for(const j of f.joints){j.bone.quaternion.copy(j.rest);if(reduced)continue;const rate=moving?10:2.4;let a=Math.sin(time*rate+j.side)*.045;axis.set(1,0,0);if(j.kind==='wing'){a=Math.sin(time*5)*.25*j.side;axis.set(0,1,0);}else if(j.kind==='tail'){a=Math.sin(time*3)*.18;axis.set(0,1,0);}else if(j.kind==='ear')a*=1.8;else if(j.kind==='leg')a*=moving?5:.3;else if(j.kind==='arm')a+=attack*.4;else if(j.kind==='head')a*=.4;j.bone.quaternion.multiply(offset.setFromAxisAngle(axis,a));}
    if(arenaPiece&&f.tile!==undefined){
     const group=arena.attach(f.key,[f.pivot,f.base,f.ring,f.burst]);group.userData.tile=f.tile;const pos=tilePosition(f.tile);
@@ -102,6 +103,6 @@ export function createModelLayer(host:HTMLElement,reduced:boolean):ModelLayer {
   arena.render(bounds,width,height);
  }
  frame=requestAnimationFrame(draw);
- return {sync,dispose(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();arena.dispose();canvas.removeEventListener('webglcontextlost',contextLost);for(const f of figures.values())release(f);figures.clear();renderer.dispose();renderer.forceContextLoss();canvas.remove();}};
+ return {sync,drama(event,progress){arena.drama(event,progress);},dispose(){disposed=true;cancelAnimationFrame(frame);observer.disconnect();arena.dispose();canvas.removeEventListener('webglcontextlost',contextLost);for(const f of figures.values())release(f);figures.clear();renderer.dispose();renderer.forceContextLoss();canvas.remove();}};
 }
 

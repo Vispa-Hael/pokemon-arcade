@@ -2,7 +2,7 @@ import {describe,it,expect} from 'vitest';
 import raw from '../src/data/catalog.json';
 import {CharacterDatabase,validateCatalog,type Catalog} from '../src/data/model';
 import {PlayerServices,type StorageAdapter} from '../src/shared/player';
-import {createRegistry,routeGame} from '../src/shared/game';
+import {createRegistry,routeGame,type GameModule} from '../src/shared/game';
 import guessModule from '../src/games/guess';
 import chess from '../src/games/chess';
 import arena from '../src/games/arena';
@@ -19,7 +19,7 @@ describe('character catalog',()=>{
 });
 describe('modules and routes',()=>{
  it('registers independent game entries',()=>expect([...createRegistry([guessModule,chess,arena]).keys()]).toEqual(['guess','chess','arena']));
- it('rejects duplicates and mismatched routes',()=>{expect(()=>createRegistry([chess,chess])).toThrow();expect(()=>createRegistry([{...chess,route:'/oops'}])).toThrow();});
+ it('rejects duplicates and mismatched routes',()=>{expect(()=>createRegistry([chess,chess])).toThrow();expect(()=>createRegistry([{...chess,route:'/oops'} as unknown as GameModule])).toThrow();});
  it('parses only exact game routes',()=>{expect(routeGame('#/games/guess')).toBe('guess');expect(routeGame('#/games/guess/extra')).toBeNull();expect(routeGame('#/')).toBeNull();});
 });
 describe('player services',()=>{

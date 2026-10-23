@@ -12,7 +12,7 @@ it('deploys, moves, restores a match and cancels computer work on unmount',()=>{
 });
 it('plays the opening and elite summons, blocks battle input, and resumes after skip',()=>{
  vi.useFakeTimers();localStorage.clear();const host=document.createElement('div');document.body.append(host);const context={characters:new CharacterDatabase(raw as Catalog),player:new PlayerServices(localStorage),legacyAvailable:{},reducedMotion:false};
- const cleanup=game.mount(host,context);host.querySelector<HTMLButtonElement>('#pcm-start')!.click();expect(host.querySelector('.pcm-cinema')).not.toBeNull();expect(host.querySelector('.pcm-cinema-stage')!.textContent).toContain('Verdant Ruins');const before=context.player.load(game.id,validMatch);host.querySelector<HTMLButtonElement>('.can-move')!.click();expect(context.player.load(game.id,validMatch)).toEqual(before);vi.advanceTimersByTime(2600);expect(host.querySelector('.pcm-cinema-stage')!.textContent).toContain('arise');host.querySelector<HTMLButtonElement>('.pcm-skip')!.click();expect(host.querySelector('.pcm-cinema')).toBeNull();expect(host.querySelectorAll('[data-tile]')).toHaveLength(64);if(cleanup)cleanup();vi.runAllTimers();host.remove();vi.useRealTimers();
+ const cleanup=game.mount(host,context);host.querySelector<HTMLButtonElement>('#pcm-start')!.click();expect(host.querySelector('.pcm-cinema')).not.toBeNull();expect(host.querySelector('.pcm-cinema-stage')!.textContent).toContain('Verdant Ruins');const before=context.player.load(game.id,validMatch);host.querySelector<HTMLButtonElement>('.can-move')!.click();expect(context.player.load(game.id,validMatch)).toEqual(before);vi.advanceTimersByTime(6400);expect(host.querySelector('.pcm-cinema-stage')!.textContent).toContain('arise');host.querySelector<HTMLButtonElement>('.pcm-skip')!.click();expect(host.querySelector('.pcm-cinema')).toBeNull();expect(host.querySelectorAll('[data-tile]')).toHaveLength(64);if(cleanup)cleanup();vi.runAllTimers();host.remove();vi.useRealTimers();
 });
 it('lets a player disable introductions and summons while retaining the match settings',()=>{
  localStorage.clear();const host=document.createElement('div');document.body.append(host);const context={characters:new CharacterDatabase(raw as Catalog),player:new PlayerServices(localStorage),legacyAvailable:{},reducedMotion:false};const cleanup=game.mount(host,context);
@@ -20,3 +20,8 @@ it('lets a player disable introductions and summons while retaining the match se
 });
 
 
+
+it('deploys in a chosen location and restores its terrain',()=>{
+ localStorage.clear();const host=document.createElement('div');document.body.append(host);const context={characters:new CharacterDatabase(raw as Catalog),player:new PlayerServices(localStorage),legacyAvailable:{},reducedMotion:true};let cleanup=game.mount(host,context);
+ host.querySelector<HTMLButtonElement>('[data-location="tidal-grotto"]')!.click();expect(host.querySelector('[data-location="tidal-grotto"]')!.getAttribute('aria-pressed')).toBe('true');host.querySelector<HTMLButtonElement>('#pcm-start')!.click();expect(context.player.load(game.id,validMatch)?.location).toBe('tidal-grotto');expect(host.querySelector('[data-tile="26"]')!.getAttribute('aria-label')).toContain('Crystal spire');cleanup?.();cleanup=game.mount(host,context);expect(host.querySelector('.pcm')!.getAttribute('data-location')).toBe('tidal-grotto');cleanup?.();host.remove();
+});

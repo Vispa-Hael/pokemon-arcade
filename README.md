@@ -104,3 +104,7 @@ The hub now includes six actual gameplay preview cards, a featured game, search/
 The build now includes browser-only Chess/Arena snapshots and supports repository subpaths. See [GitHub hosting setup](docs/GITHUB-HOSTING.md). Source attributions remain with the bundled games.
 
 
+
+## Shared game registry
+
+Game entries declare stable identity, routes and launch/data/save ownership capabilities. The metadata registry validates entries without launching games or accessing storage. See [registry audit and data-service recommendation](docs/GAME-REGISTRY.md).

@@ -1,5 +1,17 @@
 # Pocket Capsule Monsters
 
+## Version 1.4: cinematic combat and signature attacks
+
+Human and computer attacks now use short, skippable camera sequences: windup behind the attacker, an elemental projectile pass, impact close-up, recoil and debris. Knockouts extend the sequence and slow skeletal animation around impact. Victory adds a capsule-shatter effect, a quiet beat followed by a synthesized victory cue, a camera orbit, and a permanent winning-squad panel. Escape or Skip action ends a sequence. Drama: off restores quick resolution. Reduced-motion mode uses short text-only action cards without camera moves, flashes or slow motion.
+
+Sound is opt-in through Sound: on. The original synthesized score adds bass/percussion and increases tempo as capsules weaken, squads lose members, turns advance or a signature charges. Elemental strikes have distinct synthesized effects. The audio context starts after a user gesture; muting, hiding the page or leaving the module stops/suspends playback and clears scheduled work. No remote recordings or music downloads are required.
+
+Each team has one signature per battle. Select a partner and Charge signature (3 AP), then choose a center tile within three Manhattan spaces. The caster spends its attack and movement and stays anchored. The center and its four orthogonal neighbors are marked (fewer at board edges). The opponent gets its complete next turn to evade or defeat the caster. At the start of the caster's next turn, surviving enemy units in the zone take round(normal damage × 1.8 + 12); an enemy capsule takes 65 damage. No friendly fire. A defeated caster cancels the blast but does not refund the once-per-team charge. The computer can charge clustered targets and prioritizes escaping marked zones.
+
+Signature state is saved in optional fields so older version-1 saves remain valid. Loading does not repeat a blast or a victory cutscene. Invalid charge timing, identity and usage data are rejected. Combat is committed once before its presentation; the windup displays a snapshot until impact. Skipping, navigating away or reloading never reapplies damage. Low-health Pokémon lean with fatigue; damaged capsules crack and flicker; late-battle lighting warms toward red and purple.
+
+`drama.ts` describes state transitions and controls cancellable action cards. `battle-fx.ts` owns temporary camera motion, elemental geometry, light bursts and debris; it restores the player's camera afterward. `sound.ts` owns the synthesized score and audio lifecycle. Rules tests cover timing, evasion, interruption, victory and old/corrupt saves. UI tests cover single-application damage, skipping, finals and unmount; effect tests cover camera restoration and finite trajectories.
+
 ## Version 1.3: perspective coliseum
 
 Battles now default to one shared 3D arena: a raised stone plinth, solid tiles, trees, broken ruins, glowing capsule pedestals, surrounding pillars, directional light, fog and cast shadows. Pokémon occupy world-space tile positions and animate between them. Floating labels show names and HP; the side panel retains the larger figure inspection view. Terrain height is decorative; existing combat, directional patterns, resonance and saved-match rules remain intact.
@@ -39,3 +51,13 @@ Figure movement interpolates between tiles for 650 ms; hit reactions last 550 ms
 ## Verification
 
 Rule tests cover budget, duplicate choices, pathfinding, action limits, forest defense, knockouts, capsule victory, corrupt saves, and autonomous match completion. UI tests cover deployment, moving, restoration and unmount. Run the arcade lint, typecheck, tests and build checks.
+
+## Scenic arenas and camera direction (1.5)
+
+Choose Verdant Ruins, Ember Crown (volcano summit), or Moonwell Grotto (water cave) before deploying. Each location uses a symmetric, connected arrangement of four blocked tiles and four cover tiles; all use the same combat values. Terrain-off removes tactical obstacles while retaining the scenery. The location is stored with the match. Old saves without a location retain Verdant Ruins.
+
+The procedural surroundings include water caustics, waterfalls and ripples, luminous crystal clusters, stalactites, lava flows, basalt columns, glowing vents, smoke, embers, forest islands, flowers and broken arches. The raised battlefield has weathered tile surfaces and layered stone and metal edging. Foreground cliffs fade during camera passes to preserve visibility. Scenery outside the grid has no gameplay collision.
+
+Arena tour runs a seven-second crane reveal and opposite-side sweep, then restores the previous view. Director camera optionally circles during play; combat shots take priority. Dragging or zooming stops automatic movement; Escape skips a tour. The opening uses the same 3D location for its reveal before elite summons. Attack shots vary side and elevation. Reduced-motion mode disables tours, director movement and scenery animation. Classic grid and local portrait fallbacks remain available.
+
+Location tests verify symmetrical layouts, connected walking routes, valid saves, old-save compatibility, autonomous battle completion in every arena, finite scenery and camera paths, and resource disposal. UI coverage verifies choosing, deploying and restoring a water-cave match.

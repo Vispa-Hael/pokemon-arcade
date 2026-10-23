@@ -1,11 +1,13 @@
-export interface Round {version:1;roundId:string;formId:number;attempts:number;hints:number;status:'playing'|'won'|'lost';revealedMore?:boolean}
+export interface Round {version:1;roundId:string;formId:number;attempts:number;hints:number;status:'playing'|'won'|'lost';revealedMore?:boolean;gaveUp?:boolean}
 export const normalize=(s:string)=>s.replace(/nidoran\s*female/gi,'nidoran-f').replace(/nidoran\s*male/gi,'nidoran-m').replaceAll('♀','-f').replaceAll('♂','-m').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');
 export function newRound(ids:number[],random=Math.random):Round {if(!ids.length)throw Error('No playable characters available');const n=random();if(n<0||n>=1||!Number.isFinite(n))throw Error('Invalid random value');return {version:1,roundId:crypto.randomUUID(),formId:ids[Math.floor(n*ids.length)],attempts:0,hints:0,status:'playing'};}
 export function guess(state:Round,input:string,answers:string[]):Round {if(state.status!=='playing'||!normalize(input))return state;const attempts=state.attempts+1;return {...state,attempts,status:answers.some(a=>normalize(a)===normalize(input))?'won':attempts>=5?'lost':'playing'};}
+/** Forfeits the remaining attempts using the existing completed-loss state. */
+export function giveUp(state:Round):Round {return state.status==='playing'?{...state,status:'lost',attempts:5,gaveUp:true}:state;}
 export function hint(state:Round):Round{return state.status==='playing'?{...state,hints:Math.min(4,state.hints+1)}:state;}
 export function revealMore(state:Round):Round{return state.status==='playing'&&!state.revealedMore?{...state,revealedMore:true}:state;}
 export const score=(s:Round)=>s.status==='won'?Math.floor(Math.max(10,100-(s.attempts-1)*15-s.hints*10)*(s.revealedMore?0.5:1)):0;
-export function validRound(x:unknown):x is Round {if(!x||typeof x!=='object')return false;const s=x as Round;return (s.revealedMore===undefined||typeof s.revealedMore==='boolean')&&s.version===1&&typeof s.roundId==='string'&&s.roundId.length>0&&Number.isInteger(s.formId)&&s.formId>0&&Number.isInteger(s.attempts)&&s.attempts>=0&&s.attempts<=5&&Number.isInteger(s.hints)&&s.hints>=0&&s.hints<=4&&((s.status==='playing'&&s.attempts<5)||(s.status==='won'&&s.attempts>0)||(s.status==='lost'&&s.attempts===5));}
+export function validRound(x:unknown):x is Round {if(!x||typeof x!=='object')return false;const s=x as Round;return (s.gaveUp===undefined||typeof s.gaveUp==='boolean')&&(!s.gaveUp||(s.status==='lost'&&s.attempts===5))&&(s.revealedMore===undefined||typeof s.revealedMore==='boolean')&&s.version===1&&typeof s.roundId==='string'&&s.roundId.length>0&&Number.isInteger(s.formId)&&s.formId>0&&Number.isInteger(s.attempts)&&s.attempts>=0&&s.attempts<=5&&Number.isInteger(s.hints)&&s.hints>=0&&s.hints<=4&&((s.status==='playing'&&s.attempts<5)||(s.status==='won'&&s.attempts>0)||(s.status==='lost'&&s.attempts===5));}
 
 export const cluePatterns=['Vertical','Horizontal','Diagonal','Stripes','Polka dots'] as const;
 /** Round UUID picks a structured mask and orientation; Reveal more removes the mask independently of trivia. */
