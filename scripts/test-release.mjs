@@ -9,7 +9,7 @@ for(const id of ['chess','arena','pokemon-skate']){
  const entry=await read('legacy/'+id+'/index.html');
  for(const [,url] of entry.matchAll(/(?:src|href)="([^"#]+)"/g)){
   if(/^(https?:|data:)/.test(url)||url==='./')continue;
-  await stat(path.join('dist/legacy',id,url));
+  await stat(path.join('dist/legacy',id,url.split('?')[0]));
  }
 }
 let bytes=0,count=0;
