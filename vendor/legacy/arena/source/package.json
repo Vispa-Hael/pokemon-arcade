@@ -1,0 +1,59 @@
+{
+  "name": "pokemon-arena",
+  "version": "0.6.0",
+  "private": true,
+  "description": "Offline real-time Pokemon arena fan prototype",
+  "author": "Pokemon Arena",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node smoke-test.cjs",
+    "test:desktop": "node desktop/smoke.cjs",
+    "build": "electron-builder --win portable --x64",
+    "build:folder": "electron-builder --win dir --x64",
+    "build:renderer": "esbuild src/arena3d.js --bundle --format=iife --global-name=Arena3D --loader:.glb=binary --minify --outfile=assets/arena3d.bundle.js",
+    "prestart": "npm run build:renderer",
+    "prebuild": "npm run build:renderer",
+    "prebuild:folder": "npm run build:renderer",
+    "pretest:desktop": "npm run build:renderer"
+  },
+  "devDependencies": {
+    "electron": "44.9.1",
+    "electron-builder": "26.15.3",
+    "esbuild": "^0.28.2",
+    "three": "^0.186.1"
+  },
+  "build": {
+    "appId": "local.pokemonarena.desktop",
+    "productName": "Pokemon Arena",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "index.html",
+      "style.css",
+      "game.js",
+      "desktop/main.cjs",
+      "package.json",
+      "assets/arena3d.bundle.js",
+      "assets/THIRD-PARTY-LICENSE.txt",
+      "assets/MODEL-CREDITS.md"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "signAndEditExecutable": false,
+      "artifactName": "Pokemon-Arena-${version}-Windows.${ext}"
+    },
+    "portable": {
+      "requestExecutionLevel": "user"
+    }
+  }
+}

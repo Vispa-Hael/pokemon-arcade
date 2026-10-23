@@ -1,0 +1,791 @@
+{
+  "source": "Existing local PokéAPI catalog",
+  "species": {
+    "Arcanine": {
+      "id": 59,
+      "speciesId": 59,
+      "name": "arcanine",
+      "displayName": "Arcanine",
+      "isDefault": true,
+      "heightM": 1.9,
+      "weightKg": 155,
+      "types": [
+        "fire"
+      ],
+      "abilities": [
+        {
+          "id": 22,
+          "name": "intimidate",
+          "hidden": false
+        },
+        {
+          "id": 18,
+          "name": "flash-fire",
+          "hidden": false
+        },
+        {
+          "id": 154,
+          "name": "justified",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 110,
+        "defense": 80,
+        "specialAttack": 100,
+        "specialDefense": 80,
+        "speed": 95
+      },
+      "baseStatTotal": 555,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/59.png",
+      "sprite": null
+    },
+    "Ninetales": {
+      "id": 38,
+      "speciesId": 38,
+      "name": "ninetales",
+      "displayName": "Ninetales",
+      "isDefault": true,
+      "heightM": 1.1,
+      "weightKg": 19.9,
+      "types": [
+        "fire"
+      ],
+      "abilities": [
+        {
+          "id": 18,
+          "name": "flash-fire",
+          "hidden": false
+        },
+        {
+          "id": 70,
+          "name": "drought",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 73,
+        "attack": 76,
+        "defense": 75,
+        "specialAttack": 81,
+        "specialDefense": 100,
+        "speed": 100
+      },
+      "baseStatTotal": 505,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/38.png",
+      "sprite": null
+    },
+    "Rapidash": {
+      "id": 78,
+      "speciesId": 78,
+      "name": "rapidash",
+      "displayName": "Rapidash",
+      "isDefault": true,
+      "heightM": 1.7,
+      "weightKg": 95,
+      "types": [
+        "fire"
+      ],
+      "abilities": [
+        {
+          "id": 50,
+          "name": "run-away",
+          "hidden": false
+        },
+        {
+          "id": 18,
+          "name": "flash-fire",
+          "hidden": false
+        },
+        {
+          "id": 49,
+          "name": "flame-body",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 100,
+        "defense": 70,
+        "specialAttack": 80,
+        "specialDefense": 80,
+        "speed": 105
+      },
+      "baseStatTotal": 500,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/78.png",
+      "sprite": null
+    },
+    "Jolteon": {
+      "id": 135,
+      "speciesId": 135,
+      "name": "jolteon",
+      "displayName": "Jolteon",
+      "isDefault": true,
+      "heightM": 0.8,
+      "weightKg": 24.5,
+      "types": [
+        "electric"
+      ],
+      "abilities": [
+        {
+          "id": 10,
+          "name": "volt-absorb",
+          "hidden": false
+        },
+        {
+          "id": 95,
+          "name": "quick-feet",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 110,
+        "specialDefense": 95,
+        "speed": 130
+      },
+      "baseStatTotal": 525,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/135.png",
+      "sprite": null
+    },
+    "Raichu": {
+      "id": 26,
+      "speciesId": 26,
+      "name": "raichu",
+      "displayName": "Raichu",
+      "isDefault": true,
+      "heightM": 0.8,
+      "weightKg": 30,
+      "types": [
+        "electric"
+      ],
+      "abilities": [
+        {
+          "id": 9,
+          "name": "static",
+          "hidden": false
+        },
+        {
+          "id": 31,
+          "name": "lightning-rod",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 60,
+        "attack": 90,
+        "defense": 55,
+        "specialAttack": 90,
+        "specialDefense": 80,
+        "speed": 110
+      },
+      "baseStatTotal": 485,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/26.png",
+      "sprite": null
+    },
+    "Electabuzz": {
+      "id": 125,
+      "speciesId": 125,
+      "name": "electabuzz",
+      "displayName": "Electabuzz",
+      "isDefault": true,
+      "heightM": 1.1,
+      "weightKg": 30,
+      "types": [
+        "electric"
+      ],
+      "abilities": [
+        {
+          "id": 9,
+          "name": "static",
+          "hidden": false
+        },
+        {
+          "id": 72,
+          "name": "vital-spirit",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 83,
+        "defense": 57,
+        "specialAttack": 95,
+        "specialDefense": 85,
+        "speed": 105
+      },
+      "baseStatTotal": 490,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/125.png",
+      "sprite": null
+    },
+    "Vaporeon": {
+      "id": 134,
+      "speciesId": 134,
+      "name": "vaporeon",
+      "displayName": "Vaporeon",
+      "isDefault": true,
+      "heightM": 1,
+      "weightKg": 29,
+      "types": [
+        "water"
+      ],
+      "abilities": [
+        {
+          "id": 11,
+          "name": "water-absorb",
+          "hidden": false
+        },
+        {
+          "id": 93,
+          "name": "hydration",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 130,
+        "attack": 65,
+        "defense": 60,
+        "specialAttack": 110,
+        "specialDefense": 95,
+        "speed": 65
+      },
+      "baseStatTotal": 525,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/134.png",
+      "sprite": null
+    },
+    "Gyarados": {
+      "id": 130,
+      "speciesId": 130,
+      "name": "gyarados",
+      "displayName": "Gyarados",
+      "isDefault": true,
+      "heightM": 6.5,
+      "weightKg": 235,
+      "types": [
+        "water",
+        "flying"
+      ],
+      "abilities": [
+        {
+          "id": 22,
+          "name": "intimidate",
+          "hidden": false
+        },
+        {
+          "id": 153,
+          "name": "moxie",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 95,
+        "attack": 125,
+        "defense": 79,
+        "specialAttack": 60,
+        "specialDefense": 100,
+        "speed": 81
+      },
+      "baseStatTotal": 540,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/130.png",
+      "sprite": null
+    },
+    "Lapras": {
+      "id": 131,
+      "speciesId": 131,
+      "name": "lapras",
+      "displayName": "Lapras",
+      "isDefault": true,
+      "heightM": 2.5,
+      "weightKg": 220,
+      "types": [
+        "water",
+        "ice"
+      ],
+      "abilities": [
+        {
+          "id": 11,
+          "name": "water-absorb",
+          "hidden": false
+        },
+        {
+          "id": 75,
+          "name": "shell-armor",
+          "hidden": false
+        },
+        {
+          "id": 93,
+          "name": "hydration",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 130,
+        "attack": 85,
+        "defense": 80,
+        "specialAttack": 85,
+        "specialDefense": 95,
+        "speed": 60
+      },
+      "baseStatTotal": 535,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/131.png",
+      "sprite": null
+    },
+    "Cloyster": {
+      "id": 91,
+      "speciesId": 91,
+      "name": "cloyster",
+      "displayName": "Cloyster",
+      "isDefault": true,
+      "heightM": 1.5,
+      "weightKg": 132.5,
+      "types": [
+        "water",
+        "ice"
+      ],
+      "abilities": [
+        {
+          "id": 75,
+          "name": "shell-armor",
+          "hidden": false
+        },
+        {
+          "id": 92,
+          "name": "skill-link",
+          "hidden": false
+        },
+        {
+          "id": 142,
+          "name": "overcoat",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 50,
+        "attack": 95,
+        "defense": 180,
+        "specialAttack": 85,
+        "specialDefense": 45,
+        "speed": 70
+      },
+      "baseStatTotal": 525,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/91.png",
+      "sprite": null
+    },
+    "Scyther": {
+      "id": 123,
+      "speciesId": 123,
+      "name": "scyther",
+      "displayName": "Scyther",
+      "isDefault": true,
+      "heightM": 1.5,
+      "weightKg": 56,
+      "types": [
+        "bug",
+        "flying"
+      ],
+      "abilities": [
+        {
+          "id": 68,
+          "name": "swarm",
+          "hidden": false
+        },
+        {
+          "id": 101,
+          "name": "technician",
+          "hidden": false
+        },
+        {
+          "id": 80,
+          "name": "steadfast",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 70,
+        "attack": 110,
+        "defense": 80,
+        "specialAttack": 55,
+        "specialDefense": 80,
+        "speed": 105
+      },
+      "baseStatTotal": 500,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/123.png",
+      "sprite": null
+    },
+    "Pinsir": {
+      "id": 127,
+      "speciesId": 127,
+      "name": "pinsir",
+      "displayName": "Pinsir",
+      "isDefault": true,
+      "heightM": 1.5,
+      "weightKg": 55,
+      "types": [
+        "bug"
+      ],
+      "abilities": [
+        {
+          "id": 52,
+          "name": "hyper-cutter",
+          "hidden": false
+        },
+        {
+          "id": 104,
+          "name": "mold-breaker",
+          "hidden": false
+        },
+        {
+          "id": 153,
+          "name": "moxie",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 65,
+        "attack": 125,
+        "defense": 100,
+        "specialAttack": 55,
+        "specialDefense": 70,
+        "speed": 85
+      },
+      "baseStatTotal": 500,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/127.png",
+      "sprite": null
+    },
+    "Golem": {
+      "id": 76,
+      "speciesId": 76,
+      "name": "golem",
+      "displayName": "Golem",
+      "isDefault": true,
+      "heightM": 1.4,
+      "weightKg": 300,
+      "types": [
+        "rock",
+        "ground"
+      ],
+      "abilities": [
+        {
+          "id": 69,
+          "name": "rock-head",
+          "hidden": false
+        },
+        {
+          "id": 5,
+          "name": "sturdy",
+          "hidden": false
+        },
+        {
+          "id": 8,
+          "name": "sand-veil",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 120,
+        "defense": 130,
+        "specialAttack": 55,
+        "specialDefense": 65,
+        "speed": 45
+      },
+      "baseStatTotal": 495,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/76.png",
+      "sprite": null
+    },
+    "Rhydon": {
+      "id": 112,
+      "speciesId": 112,
+      "name": "rhydon",
+      "displayName": "Rhydon",
+      "isDefault": true,
+      "heightM": 1.9,
+      "weightKg": 120,
+      "types": [
+        "ground",
+        "rock"
+      ],
+      "abilities": [
+        {
+          "id": 31,
+          "name": "lightning-rod",
+          "hidden": false
+        },
+        {
+          "id": 69,
+          "name": "rock-head",
+          "hidden": false
+        },
+        {
+          "id": 120,
+          "name": "reckless",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 105,
+        "attack": 130,
+        "defense": 120,
+        "specialAttack": 45,
+        "specialDefense": 45,
+        "speed": 40
+      },
+      "baseStatTotal": 485,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/112.png",
+      "sprite": null
+    },
+    "Nidoking": {
+      "id": 34,
+      "speciesId": 34,
+      "name": "nidoking",
+      "displayName": "Nidoking",
+      "isDefault": true,
+      "heightM": 1.4,
+      "weightKg": 62,
+      "types": [
+        "poison",
+        "ground"
+      ],
+      "abilities": [
+        {
+          "id": 38,
+          "name": "poison-point",
+          "hidden": false
+        },
+        {
+          "id": 79,
+          "name": "rivalry",
+          "hidden": false
+        },
+        {
+          "id": 125,
+          "name": "sheer-force",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 81,
+        "attack": 102,
+        "defense": 77,
+        "specialAttack": 85,
+        "specialDefense": 75,
+        "speed": 85
+      },
+      "baseStatTotal": 505,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/34.png",
+      "sprite": null
+    },
+    "Nidoqueen": {
+      "id": 31,
+      "speciesId": 31,
+      "name": "nidoqueen",
+      "displayName": "Nidoqueen",
+      "isDefault": true,
+      "heightM": 1.3,
+      "weightKg": 60,
+      "types": [
+        "poison",
+        "ground"
+      ],
+      "abilities": [
+        {
+          "id": 38,
+          "name": "poison-point",
+          "hidden": false
+        },
+        {
+          "id": 79,
+          "name": "rivalry",
+          "hidden": false
+        },
+        {
+          "id": 125,
+          "name": "sheer-force",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 92,
+        "defense": 87,
+        "specialAttack": 75,
+        "specialDefense": 85,
+        "speed": 76
+      },
+      "baseStatTotal": 505,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/31.png",
+      "sprite": null
+    },
+    "Dragonite": {
+      "id": 149,
+      "speciesId": 149,
+      "name": "dragonite",
+      "displayName": "Dragonite",
+      "isDefault": true,
+      "heightM": 2.2,
+      "weightKg": 210,
+      "types": [
+        "dragon",
+        "flying"
+      ],
+      "abilities": [
+        {
+          "id": 39,
+          "name": "inner-focus",
+          "hidden": false
+        },
+        {
+          "id": 136,
+          "name": "multiscale",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 91,
+        "attack": 134,
+        "defense": 95,
+        "specialAttack": 100,
+        "specialDefense": 100,
+        "speed": 80
+      },
+      "baseStatTotal": 600,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/149.png",
+      "sprite": null
+    },
+    "Aerodactyl": {
+      "id": 142,
+      "speciesId": 142,
+      "name": "aerodactyl",
+      "displayName": "Aerodactyl",
+      "isDefault": true,
+      "heightM": 1.8,
+      "weightKg": 59,
+      "types": [
+        "rock",
+        "flying"
+      ],
+      "abilities": [
+        {
+          "id": 69,
+          "name": "rock-head",
+          "hidden": false
+        },
+        {
+          "id": 46,
+          "name": "pressure",
+          "hidden": false
+        },
+        {
+          "id": 127,
+          "name": "unnerve",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 80,
+        "attack": 105,
+        "defense": 65,
+        "specialAttack": 60,
+        "specialDefense": 75,
+        "speed": 130
+      },
+      "baseStatTotal": 515,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/142.png",
+      "sprite": null
+    },
+    "Mewtwo": {
+      "id": 150,
+      "speciesId": 150,
+      "name": "mewtwo",
+      "displayName": "Mewtwo",
+      "isDefault": true,
+      "heightM": 2,
+      "weightKg": 122,
+      "types": [
+        "psychic"
+      ],
+      "abilities": [
+        {
+          "id": 46,
+          "name": "pressure",
+          "hidden": false
+        },
+        {
+          "id": 127,
+          "name": "unnerve",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 106,
+        "attack": 110,
+        "defense": 90,
+        "specialAttack": 154,
+        "specialDefense": 90,
+        "speed": 130
+      },
+      "baseStatTotal": 680,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png",
+      "sprite": null
+    },
+    "Articuno": {
+      "id": 144,
+      "speciesId": 144,
+      "name": "articuno",
+      "displayName": "Articuno",
+      "isDefault": true,
+      "heightM": 1.7,
+      "weightKg": 55.4,
+      "types": [
+        "ice",
+        "flying"
+      ],
+      "abilities": [
+        {
+          "id": 46,
+          "name": "pressure",
+          "hidden": false
+        },
+        {
+          "id": 81,
+          "name": "snow-cloak",
+          "hidden": true
+        }
+      ],
+      "stats": {
+        "hp": 90,
+        "attack": 85,
+        "defense": 100,
+        "specialAttack": 95,
+        "specialDefense": 125,
+        "speed": 85
+      },
+      "baseStatTotal": 580,
+      "moves": null,
+      "artwork": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/144.png",
+      "sprite": null
+    }
+  }
+}

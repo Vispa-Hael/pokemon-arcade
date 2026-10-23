@@ -14,3 +14,5 @@ Local integration includes normalization, material lighting, AnimationMixer play
 Three.js and GLTFLoader are provided under the Three.js MIT license in THIRD-PARTY-LICENSE.txt.
 
 Roster expansion 0.4.0 adds the same-source assets: Bulbasaur 001, Gengar 094, Alakazam 065, Machamp 068, Eevee 133, Snorlax 143. Downloaded 2026-10-22.
+
+Boss expansion 0.5.0 adds the same-source models, downloaded 2026-10-22: Arcanine 059, Ninetales 038, Rapidash 078, Jolteon 135, Raichu 026, Electabuzz 125, Vaporeon 134, Gyarados 130, Lapras 131, Cloyster 091, Scyther 123, Pinsir 127, Golem 076, Rhydon 112, Nidoking 034, Nidoqueen 031, Dragonite 149, Aerodactyl 142, Mewtwo 150, Articuno 144. Base stats and types retain the local PokéAPI source values.

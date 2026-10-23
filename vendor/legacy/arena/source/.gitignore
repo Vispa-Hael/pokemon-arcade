@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.log
+
+assets/arena3d.bundle.js
+desktop/last-smoke.json

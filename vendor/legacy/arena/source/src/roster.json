@@ -1,0 +1,2391 @@
+{
+  "species": {
+    "Pikachu": {
+      "id": 25,
+      "type": [
+        "Electric"
+      ],
+      "stats": [
+        35,
+        55,
+        40,
+        50,
+        50,
+        90
+      ],
+      "weight": 6,
+      "color": "#f7d450",
+      "role": "Mobile artillery",
+      "description": "Build Static with electric shots, dash to safety, then detonate marks with a heavy attack.",
+      "rapid": [
+        "Thunder Shock",
+        "Quick Attack"
+      ],
+      "charged": [
+        "Electro Ball",
+        "Thunderbolt"
+      ],
+      "ai": "ranged",
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "sweep",
+          "strafe",
+          "rain"
+        ],
+        "range": 290,
+        "speed": 0.7,
+        "evade": 0.55,
+        "type": "Electric"
+      },
+      "kit": [
+        "Thunder Shock",
+        "Quick Attack",
+        "Electro Ball",
+        "Thunderbolt"
+      ]
+    },
+    "Charmander": {
+      "id": 4,
+      "type": [
+        "Fire"
+      ],
+      "stats": [
+        39,
+        52,
+        43,
+        60,
+        50,
+        65
+      ],
+      "weight": 8.5,
+      "color": "#ef9b56",
+      "role": "Flame skirmisher",
+      "description": "Burn foes with embers, punish with claws, and control lanes with sustained fire.",
+      "rapid": [
+        "Ember",
+        "Scratch"
+      ],
+      "charged": [
+        "Flamethrower",
+        "Flame Burst"
+      ],
+      "ai": "ranged",
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "sweep",
+          "strafe",
+          "rain"
+        ],
+        "range": 290,
+        "speed": 0.7,
+        "evade": 0.55,
+        "type": "Fire"
+      },
+      "kit": [
+        "Ember",
+        "Scratch",
+        "Flamethrower",
+        "Flame Burst"
+      ]
+    },
+    "Squirtle": {
+      "id": 7,
+      "type": [
+        "Water"
+      ],
+      "stats": [
+        44,
+        48,
+        65,
+        50,
+        64,
+        43
+      ],
+      "weight": 9,
+      "color": "#77c7d4",
+      "role": "Water duelist",
+      "description": "Guard through a tackle, slow foes with water, and line up a heavy cannon shot.",
+      "rapid": [
+        "Water Gun",
+        "Tackle"
+      ],
+      "charged": [
+        "Water Pulse",
+        "Hydro Pump"
+      ],
+      "ai": "ranged",
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "sweep",
+          "strafe",
+          "rain"
+        ],
+        "range": 290,
+        "speed": 0.7,
+        "evade": 0.55,
+        "type": "Water"
+      },
+      "kit": [
+        "Water Gun",
+        "Tackle",
+        "Water Pulse",
+        "Hydro Pump"
+      ]
+    },
+    "Bulbasaur": {
+      "id": 1,
+      "type": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": [
+        45,
+        49,
+        49,
+        65,
+        65,
+        45
+      ],
+      "weight": 6.9,
+      "color": "#78bc8b",
+      "role": "Drain controller",
+      "description": "Root and slow with vines and seeds, then drain a controlled target to recover health.",
+      "rapid": [
+        "Vine Whip",
+        "Razor Leaf"
+      ],
+      "charged": [
+        "Seed Bomb",
+        "Giga Drain"
+      ],
+      "ai": "controller",
+      "bossProfile": {
+        "patterns": [
+          "mines",
+          "rain",
+          "fan",
+          "ring"
+        ],
+        "range": 300,
+        "speed": 0.55,
+        "evade": 0.35,
+        "type": "Grass"
+      },
+      "kit": [
+        "Razor Leaf",
+        "Vine Whip",
+        "Seed Bomb",
+        "Giga Drain"
+      ]
+    },
+    "Gengar": {
+      "id": 94,
+      "type": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": [
+        60,
+        65,
+        60,
+        130,
+        75,
+        110
+      ],
+      "weight": 40.5,
+      "color": "#aa86e4",
+      "role": "Ghost ambusher",
+      "description": "Poison an area, exploit debuffed foes with Hex, and shadow-step into a recovering boss.",
+      "rapid": [
+        "Hex",
+        "Sucker Punch"
+      ],
+      "charged": [
+        "Shadow Ball",
+        "Sludge Bomb"
+      ],
+      "ai": "ghost",
+      "bossProfile": {
+        "patterns": [
+          "blink",
+          "tracking",
+          "spiral",
+          "mines"
+        ],
+        "range": 300,
+        "speed": 0.85,
+        "evade": 0.9,
+        "type": "Ghost"
+      },
+      "kit": [
+        "Hex",
+        "Sucker Punch",
+        "Sludge Bomb",
+        "Shadow Ball"
+      ]
+    },
+    "Alakazam": {
+      "id": 65,
+      "type": [
+        "Psychic"
+      ],
+      "stats": [
+        55,
+        50,
+        45,
+        135,
+        95,
+        120
+      ],
+      "weight": 48,
+      "color": "#e9c871",
+      "role": "Psychic sniper",
+      "description": "Build Focus while kiting, consume it with Psychic, or cleanse and recover when pressured.",
+      "rapid": [
+        "Confusion",
+        "Psycho Cut"
+      ],
+      "charged": [
+        "Psychic",
+        "Recover"
+      ],
+      "ai": "sniper",
+      "bossProfile": {
+        "patterns": [
+          "tracking",
+          "crossfire",
+          "blink",
+          "sweep"
+        ],
+        "range": 390,
+        "speed": 0.7,
+        "evade": 0.85,
+        "type": "Psychic"
+      },
+      "kit": [
+        "Confusion",
+        "Psycho Cut",
+        "Psychic",
+        "Recover"
+      ]
+    },
+    "Machamp": {
+      "id": 68,
+      "type": [
+        "Fighting"
+      ],
+      "stats": [
+        90,
+        130,
+        80,
+        65,
+        85,
+        55
+      ],
+      "weight": 130,
+      "color": "#9ab9bc",
+      "role": "Combo brawler",
+      "description": "Link punches into a three-hit stagger, then cash the combo into a heavy interrupt.",
+      "rapid": [
+        "Mach Punch",
+        "Bullet Punch"
+      ],
+      "charged": [
+        "Dynamic Punch",
+        "Close Combat"
+      ],
+      "ai": "brawler",
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "combo",
+          "stomp",
+          "strafe"
+        ],
+        "range": 105,
+        "speed": 0.85,
+        "evade": 0.6,
+        "type": "Fighting"
+      },
+      "kit": [
+        "Mach Punch",
+        "Bullet Punch",
+        "Dynamic Punch",
+        "Close Combat"
+      ]
+    },
+    "Eevee": {
+      "id": 133,
+      "type": [
+        "Normal"
+      ],
+      "stats": [
+        55,
+        55,
+        50,
+        45,
+        65,
+        55
+      ],
+      "weight": 6.5,
+      "color": "#c79a70",
+      "role": "Agile skirmisher",
+      "description": "Pressure with seeking stars, dash into a speed boost, then commit to a recoil strike.",
+      "rapid": [
+        "Quick Attack",
+        "Swift"
+      ],
+      "charged": [
+        "Double-Edge",
+        "Shadow Ball"
+      ],
+      "ai": "skirmisher",
+      "bossProfile": {
+        "patterns": [
+          "strafe",
+          "tracking",
+          "charge",
+          "fan"
+        ],
+        "range": 260,
+        "speed": 0.9,
+        "evade": 0.85,
+        "type": "Normal"
+      },
+      "kit": [
+        "Swift",
+        "Quick Attack",
+        "Shadow Ball",
+        "Double-Edge"
+      ]
+    },
+    "Snorlax": {
+      "id": 143,
+      "type": [
+        "Normal"
+      ],
+      "stats": [
+        160,
+        110,
+        65,
+        65,
+        110,
+        30
+      ],
+      "weight": 460,
+      "color": "#90b8ba",
+      "role": "Heavy tank",
+      "description": "Slow foes with Lick, guard through a tackle, slam an opening, or risk Rest to recover.",
+      "rapid": [
+        "Lick",
+        "Tackle"
+      ],
+      "charged": [
+        "Body Slam",
+        "Rest"
+      ],
+      "ai": "tank",
+      "bossProfile": {
+        "patterns": [
+          "stomp",
+          "charge",
+          "rain",
+          "ring"
+        ],
+        "range": 170,
+        "speed": 0.4,
+        "evade": 0.1,
+        "type": "Normal"
+      },
+      "kit": [
+        "Lick",
+        "Tackle",
+        "Body Slam",
+        "Rest"
+      ]
+    },
+    "Charizard": {
+      "id": 6,
+      "type": [
+        "Fire",
+        "Flying"
+      ],
+      "stats": [
+        78,
+        84,
+        78,
+        109,
+        85,
+        100
+      ],
+      "weight": 90.5,
+      "color": "#ed9b61",
+      "role": "Flame bruiser",
+      "description": "Burn at range, shove foes away with a wing sweep, then fan or sustain flames.",
+      "rapid": [
+        "Ember",
+        "Wing Attack"
+      ],
+      "charged": [
+        "Flamethrower",
+        "Fire Blast"
+      ],
+      "ai": "ranged",
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "sweep",
+          "strafe",
+          "rain"
+        ],
+        "range": 290,
+        "speed": 0.7,
+        "evade": 0.55,
+        "type": "Fire"
+      },
+      "kit": [
+        "Ember",
+        "Wing Attack",
+        "Flamethrower",
+        "Fire Blast"
+      ]
+    },
+    "Blastoise": {
+      "id": 9,
+      "type": [
+        "Water"
+      ],
+      "stats": [
+        79,
+        83,
+        100,
+        85,
+        105,
+        78
+      ],
+      "weight": 85.5,
+      "color": "#81bed5",
+      "role": "Cannon battery",
+      "description": "Slow and push with water, interrupt up close with Bite, then fire a piercing cannon.",
+      "rapid": [
+        "Water Gun",
+        "Bite"
+      ],
+      "charged": [
+        "Hydro Pump",
+        "Water Pulse"
+      ],
+      "ai": "ranged",
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "sweep",
+          "strafe",
+          "rain"
+        ],
+        "range": 290,
+        "speed": 0.7,
+        "evade": 0.55,
+        "type": "Water"
+      },
+      "kit": [
+        "Water Gun",
+        "Bite",
+        "Water Pulse",
+        "Hydro Pump"
+      ]
+    },
+    "Venusaur": {
+      "id": 3,
+      "type": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": [
+        80,
+        82,
+        83,
+        100,
+        100,
+        80
+      ],
+      "weight": 100,
+      "color": "#84c39e",
+      "role": "Siege controller",
+      "description": "Pressure with leaves, root with vines, then choose life drain or a committed solar beam.",
+      "rapid": [
+        "Vine Whip",
+        "Razor Leaf"
+      ],
+      "charged": [
+        "Solar Beam",
+        "Giga Drain"
+      ],
+      "ai": "controller",
+      "bossProfile": {
+        "patterns": [
+          "mines",
+          "rain",
+          "fan",
+          "ring"
+        ],
+        "range": 300,
+        "speed": 0.55,
+        "evade": 0.35,
+        "type": "Grass"
+      },
+      "kit": [
+        "Razor Leaf",
+        "Vine Whip",
+        "Giga Drain",
+        "Solar Beam"
+      ]
+    },
+    "Arcanine": {
+      "id": 59,
+      "bossOnly": true,
+      "type": [
+        "Fire"
+      ],
+      "stats": [
+        90,
+        110,
+        80,
+        100,
+        80,
+        95
+      ],
+      "weight": 155,
+      "color": "#ef9c65",
+      "role": "Flame pursuit",
+      "description": "A fast circling hunter that commits to flame charges.",
+      "ai": "charger",
+      "rapid": [
+        "Boss Fire Shot",
+        "Boss Fire Strike"
+      ],
+      "charged": [
+        "Boss Fire Burst",
+        "Boss Fire Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "fan",
+          "strafe",
+          "rain"
+        ],
+        "range": 250,
+        "speed": 0.86,
+        "evade": 0.65,
+        "type": "Fire",
+        "height": 3.1
+      }
+    },
+    "Ninetales": {
+      "id": 38,
+      "bossOnly": true,
+      "type": [
+        "Fire"
+      ],
+      "stats": [
+        73,
+        76,
+        75,
+        81,
+        100,
+        100
+      ],
+      "weight": 19.9,
+      "color": "#ef9c65",
+      "role": "Foxfire dancer",
+      "description": "Circles at range and blinks away before foxfire fans.",
+      "ai": "blink",
+      "rapid": [
+        "Boss Fire Shot",
+        "Boss Fire Strike"
+      ],
+      "charged": [
+        "Boss Fire Burst",
+        "Boss Fire Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "blink",
+          "fan",
+          "spiral",
+          "mines"
+        ],
+        "range": 330,
+        "speed": 0.8,
+        "evade": 0.9,
+        "type": "Fire",
+        "height": 2.8
+      }
+    },
+    "Rapidash": {
+      "id": 78,
+      "bossOnly": true,
+      "type": [
+        "Fire"
+      ],
+      "stats": [
+        65,
+        100,
+        70,
+        80,
+        80,
+        105
+      ],
+      "weight": 95,
+      "color": "#ef9c65",
+      "role": "Blazing racer",
+      "description": "Long straight charges alternate with strafing fire lanes.",
+      "ai": "charger",
+      "rapid": [
+        "Boss Fire Shot",
+        "Boss Fire Strike"
+      ],
+      "charged": [
+        "Boss Fire Burst",
+        "Boss Fire Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "strafe",
+          "crossfire",
+          "charge"
+        ],
+        "range": 280,
+        "speed": 1,
+        "evade": 0.6,
+        "type": "Fire",
+        "height": 3.1
+      }
+    },
+    "Jolteon": {
+      "id": 135,
+      "bossOnly": true,
+      "type": [
+        "Electric"
+      ],
+      "stats": [
+        65,
+        65,
+        60,
+        110,
+        95,
+        130
+      ],
+      "weight": 24.5,
+      "color": "#f4dc75",
+      "role": "Lightning duelist",
+      "description": "Rapid side steps, electric sweeps, and radial volleys.",
+      "ai": "skirmisher",
+      "rapid": [
+        "Boss Electric Shot",
+        "Boss Electric Strike"
+      ],
+      "charged": [
+        "Boss Electric Burst",
+        "Boss Electric Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "strafe",
+          "sweep",
+          "ring",
+          "charge"
+        ],
+        "range": 300,
+        "speed": 1,
+        "evade": 0.95,
+        "type": "Electric",
+        "height": 2.5
+      }
+    },
+    "Raichu": {
+      "id": 26,
+      "bossOnly": true,
+      "type": [
+        "Electric"
+      ],
+      "stats": [
+        60,
+        90,
+        55,
+        90,
+        80,
+        110
+      ],
+      "weight": 30,
+      "color": "#f4dc75",
+      "role": "Voltage surfer",
+      "description": "Orbits and releases offset electric rings and tracking bursts.",
+      "ai": "skirmisher",
+      "rapid": [
+        "Boss Electric Shot",
+        "Boss Electric Strike"
+      ],
+      "charged": [
+        "Boss Electric Burst",
+        "Boss Electric Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "ring",
+          "tracking",
+          "sweep",
+          "strafe"
+        ],
+        "range": 290,
+        "speed": 0.87,
+        "evade": 0.8,
+        "type": "Electric",
+        "height": 2.8
+      }
+    },
+    "Electabuzz": {
+      "id": 125,
+      "bossOnly": true,
+      "type": [
+        "Electric"
+      ],
+      "stats": [
+        65,
+        83,
+        57,
+        95,
+        85,
+        105
+      ],
+      "weight": 30,
+      "color": "#f4dc75",
+      "role": "Thunder bruiser",
+      "description": "Closes in behind electric fans, then lunges and slams.",
+      "ai": "brawler",
+      "rapid": [
+        "Boss Electric Shot",
+        "Boss Electric Strike"
+      ],
+      "charged": [
+        "Boss Electric Burst",
+        "Boss Electric Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "charge",
+          "stomp",
+          "combo"
+        ],
+        "range": 160,
+        "speed": 0.8,
+        "evade": 0.5,
+        "type": "Electric",
+        "height": 2.9
+      }
+    },
+    "Vaporeon": {
+      "id": 134,
+      "bossOnly": true,
+      "type": [
+        "Water"
+      ],
+      "stats": [
+        130,
+        65,
+        60,
+        110,
+        95,
+        65
+      ],
+      "weight": 29,
+      "color": "#83d2e8",
+      "role": "Tidal trickster",
+      "description": "Retreats into water fans, predicted bursts, and a fresh angle.",
+      "ai": "blink",
+      "rapid": [
+        "Boss Water Shot",
+        "Boss Water Strike"
+      ],
+      "charged": [
+        "Boss Water Burst",
+        "Boss Water Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "rain",
+          "fan",
+          "blink",
+          "sweep"
+        ],
+        "range": 320,
+        "speed": 0.75,
+        "evade": 0.65,
+        "type": "Water",
+        "height": 2.8
+      }
+    },
+    "Gyarados": {
+      "id": 130,
+      "bossOnly": true,
+      "type": [
+        "Water",
+        "Flying"
+      ],
+      "stats": [
+        95,
+        125,
+        79,
+        60,
+        100,
+        81
+      ],
+      "weight": 235,
+      "color": "#83d2e8",
+      "role": "Tempest serpent",
+      "description": "Sweeping jets alternate with long surges and two-wave rings.",
+      "ai": "flying",
+      "rapid": [
+        "Boss Water Shot",
+        "Boss Water Strike"
+      ],
+      "charged": [
+        "Boss Water Burst",
+        "Boss Water Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "sweep",
+          "charge",
+          "ring",
+          "rain"
+        ],
+        "range": 300,
+        "speed": 0.8,
+        "evade": 0.4,
+        "type": "Water",
+        "height": 4.5
+      }
+    },
+    "Lapras": {
+      "id": 131,
+      "bossOnly": true,
+      "type": [
+        "Water",
+        "Ice"
+      ],
+      "stats": [
+        130,
+        85,
+        80,
+        85,
+        95,
+        60
+      ],
+      "weight": 220,
+      "color": "#a3e7f4",
+      "role": "Glacial siege",
+      "description": "Slowly circles while placing ice bursts and crossfire lanes.",
+      "ai": "siege",
+      "rapid": [
+        "Boss Ice Shot",
+        "Boss Ice Strike"
+      ],
+      "charged": [
+        "Boss Ice Burst",
+        "Boss Ice Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "rain",
+          "crossfire",
+          "ring",
+          "tracking"
+        ],
+        "range": 350,
+        "speed": 0.42,
+        "evade": 0.25,
+        "type": "Ice",
+        "height": 3.7
+      }
+    },
+    "Cloyster": {
+      "id": 91,
+      "bossOnly": true,
+      "type": [
+        "Water",
+        "Ice"
+      ],
+      "stats": [
+        50,
+        95,
+        180,
+        85,
+        45,
+        70
+      ],
+      "weight": 132.5,
+      "color": "#a3e7f4",
+      "role": "Shard fortress",
+      "description": "A strafing shell that fires needle fans and offset radial waves.",
+      "ai": "siege",
+      "rapid": [
+        "Boss Ice Shot",
+        "Boss Ice Strike"
+      ],
+      "charged": [
+        "Boss Ice Burst",
+        "Boss Ice Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "ring",
+          "sweep",
+          "mines"
+        ],
+        "range": 340,
+        "speed": 0.5,
+        "evade": 0.5,
+        "type": "Ice",
+        "height": 3
+      }
+    },
+    "Scyther": {
+      "id": 123,
+      "bossOnly": true,
+      "type": [
+        "Bug",
+        "Flying"
+      ],
+      "stats": [
+        70,
+        110,
+        80,
+        55,
+        80,
+        105
+      ],
+      "weight": 56,
+      "color": "#b5d87f",
+      "role": "Blade hunter",
+      "description": "High mobility, flanking lunges, and chained close cuts.",
+      "ai": "brawler",
+      "rapid": [
+        "Boss Bug Shot",
+        "Boss Bug Strike"
+      ],
+      "charged": [
+        "Boss Bug Burst",
+        "Boss Bug Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "combo",
+          "strafe",
+          "crossfire"
+        ],
+        "range": 125,
+        "speed": 1,
+        "evade": 0.95,
+        "type": "Bug",
+        "height": 3.2
+      }
+    },
+    "Pinsir": {
+      "id": 127,
+      "bossOnly": true,
+      "type": [
+        "Bug"
+      ],
+      "stats": [
+        65,
+        125,
+        100,
+        55,
+        70,
+        85
+      ],
+      "weight": 55,
+      "color": "#b5d87f",
+      "role": "Pincer grappler",
+      "description": "Advances into lunges, two-hit combos, and ground slams.",
+      "ai": "brawler",
+      "rapid": [
+        "Boss Bug Shot",
+        "Boss Bug Strike"
+      ],
+      "charged": [
+        "Boss Bug Burst",
+        "Boss Bug Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "combo",
+          "stomp",
+          "fan"
+        ],
+        "range": 115,
+        "speed": 0.75,
+        "evade": 0.4,
+        "type": "Bug",
+        "height": 3
+      }
+    },
+    "Golem": {
+      "id": 76,
+      "bossOnly": true,
+      "type": [
+        "Rock",
+        "Ground"
+      ],
+      "stats": [
+        80,
+        120,
+        130,
+        55,
+        65,
+        45
+      ],
+      "weight": 300,
+      "color": "#c9b38c",
+      "role": "Rolling bastion",
+      "description": "Heavy charges, rockfall circles, and delayed shockwaves.",
+      "ai": "tank",
+      "rapid": [
+        "Boss Rock Shot",
+        "Boss Rock Strike"
+      ],
+      "charged": [
+        "Boss Rock Burst",
+        "Boss Rock Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "rain",
+          "stomp",
+          "ring"
+        ],
+        "range": 200,
+        "speed": 0.45,
+        "evade": 0.15,
+        "type": "Rock",
+        "height": 3
+      }
+    },
+    "Rhydon": {
+      "id": 112,
+      "bossOnly": true,
+      "type": [
+        "Ground",
+        "Rock"
+      ],
+      "stats": [
+        105,
+        130,
+        120,
+        45,
+        45,
+        40
+      ],
+      "weight": 120,
+      "color": "#d6b17c",
+      "role": "Drill juggernaut",
+      "description": "Long committed charges followed by a punishable recovery.",
+      "ai": "charger",
+      "rapid": [
+        "Boss Ground Shot",
+        "Boss Ground Strike"
+      ],
+      "charged": [
+        "Boss Ground Burst",
+        "Boss Ground Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "charge",
+          "stomp",
+          "crossfire",
+          "combo"
+        ],
+        "range": 150,
+        "speed": 0.64,
+        "evade": 0.25,
+        "type": "Ground",
+        "height": 3.6
+      }
+    },
+    "Nidoking": {
+      "id": 34,
+      "bossOnly": true,
+      "type": [
+        "Poison",
+        "Ground"
+      ],
+      "stats": [
+        81,
+        102,
+        77,
+        85,
+        75,
+        85
+      ],
+      "weight": 62,
+      "color": "#c591d9",
+      "role": "Toxic aggressor",
+      "description": "Chases between poison spreads and staggered ground bursts.",
+      "ai": "charger",
+      "rapid": [
+        "Boss Poison Shot",
+        "Boss Poison Strike"
+      ],
+      "charged": [
+        "Boss Poison Burst",
+        "Boss Poison Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "fan",
+          "charge",
+          "rain",
+          "mines"
+        ],
+        "range": 230,
+        "speed": 0.8,
+        "evade": 0.5,
+        "type": "Poison",
+        "height": 3.2
+      }
+    },
+    "Nidoqueen": {
+      "id": 31,
+      "bossOnly": true,
+      "type": [
+        "Poison",
+        "Ground"
+      ],
+      "stats": [
+        90,
+        92,
+        87,
+        75,
+        85,
+        76
+      ],
+      "weight": 60,
+      "color": "#d6b17c",
+      "role": "Earth guardian",
+      "description": "Defends space with shockwaves, predicted earth bursts, and charges.",
+      "ai": "tank",
+      "rapid": [
+        "Boss Ground Shot",
+        "Boss Ground Strike"
+      ],
+      "charged": [
+        "Boss Ground Burst",
+        "Boss Ground Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "stomp",
+          "rain",
+          "charge",
+          "crossfire"
+        ],
+        "range": 230,
+        "speed": 0.62,
+        "evade": 0.4,
+        "type": "Ground",
+        "height": 3.2
+      }
+    },
+    "Dragonite": {
+      "id": 149,
+      "bossOnly": true,
+      "type": [
+        "Dragon",
+        "Flying"
+      ],
+      "stats": [
+        91,
+        134,
+        95,
+        100,
+        100,
+        80
+      ],
+      "weight": 210,
+      "color": "#a8b2ec",
+      "role": "Sky brawler",
+      "description": "Sweeping dragon fire and fast lunges from circling flight.",
+      "ai": "flying",
+      "rapid": [
+        "Boss Dragon Shot",
+        "Boss Dragon Strike"
+      ],
+      "charged": [
+        "Boss Dragon Burst",
+        "Boss Dragon Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "strafe",
+          "charge",
+          "sweep",
+          "ring"
+        ],
+        "range": 300,
+        "speed": 0.88,
+        "evade": 0.65,
+        "type": "Dragon",
+        "height": 3.6
+      }
+    },
+    "Aerodactyl": {
+      "id": 142,
+      "bossOnly": true,
+      "type": [
+        "Rock",
+        "Flying"
+      ],
+      "stats": [
+        80,
+        105,
+        65,
+        60,
+        75,
+        130
+      ],
+      "weight": 59,
+      "color": "#c5d9eb",
+      "role": "Aerial ambusher",
+      "description": "Fast flanking movement, diving lanes, and rockfall bursts.",
+      "ai": "flying",
+      "rapid": [
+        "Boss Flying Shot",
+        "Boss Flying Strike"
+      ],
+      "charged": [
+        "Boss Flying Burst",
+        "Boss Flying Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "strafe",
+          "charge",
+          "rain",
+          "crossfire"
+        ],
+        "range": 280,
+        "speed": 1.05,
+        "evade": 0.95,
+        "type": "Flying",
+        "height": 3.3
+      }
+    },
+    "Mewtwo": {
+      "id": 150,
+      "bossOnly": true,
+      "type": [
+        "Psychic"
+      ],
+      "stats": [
+        106,
+        110,
+        90,
+        154,
+        90,
+        130
+      ],
+      "weight": 122,
+      "color": "#e6a7de",
+      "role": "Psychic conductor",
+      "description": "Teleports into new angles, leads movement, and chains psychic lanes.",
+      "ai": "blink",
+      "rapid": [
+        "Boss Psychic Shot",
+        "Boss Psychic Strike"
+      ],
+      "charged": [
+        "Boss Psychic Burst",
+        "Boss Psychic Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "blink",
+          "tracking",
+          "crossfire",
+          "spiral",
+          "rain"
+        ],
+        "range": 370,
+        "speed": 0.85,
+        "evade": 1,
+        "type": "Psychic",
+        "height": 3.4
+      }
+    },
+    "Articuno": {
+      "id": 144,
+      "bossOnly": true,
+      "type": [
+        "Ice",
+        "Flying"
+      ],
+      "stats": [
+        90,
+        85,
+        100,
+        95,
+        125,
+        85
+      ],
+      "weight": 55.4,
+      "color": "#a3e7f4",
+      "role": "Frost sovereign",
+      "description": "Circles in flight, placing slow zones and sweeping ice lanes.",
+      "ai": "flying",
+      "rapid": [
+        "Boss Ice Shot",
+        "Boss Ice Strike"
+      ],
+      "charged": [
+        "Boss Ice Burst",
+        "Boss Ice Wave"
+      ],
+      "bossProfile": {
+        "patterns": [
+          "rain",
+          "sweep",
+          "mines",
+          "ring"
+        ],
+        "range": 350,
+        "speed": 0.78,
+        "evade": 0.65,
+        "type": "Ice",
+        "height": 3.7
+      }
+    }
+  },
+  "moves": {
+    "Thunder Shock": {
+      "type": "Electric",
+      "power": 40,
+      "rate": 0.3,
+      "speed": 570,
+      "description": "Fast electric ball. Builds up to 3 Static marks for 4.5 seconds.",
+      "cooldown": 0.65,
+      "mark": "static"
+    },
+    "Quick Attack": {
+      "type": "Normal",
+      "power": 40,
+      "rate": 0.5,
+      "speed": 620,
+      "physical": true,
+      "kind": "melee",
+      "reach": 105,
+      "dash": 820,
+      "description": "Dash and strike forward; brief invulnerability and a short speed boost.",
+      "cooldown": 3.2,
+      "evade": 0.14,
+      "haste": 1.25
+    },
+    "Electro Ball": {
+      "type": "Electric",
+      "power": 80,
+      "speed": 430,
+      "size": 15,
+      "description": "A large electric orb. Consumes Static marks for up to 66% bonus damage.",
+      "cooldown": 5,
+      "detonate": "static"
+    },
+    "Thunderbolt": {
+      "type": "Electric",
+      "power": 90,
+      "speed": 1000,
+      "size": 10,
+      "pierce": true,
+      "visual": "beam",
+      "description": "Lock your firing direction, then release a piercing electric lance. Can interrupt a boss windup.",
+      "cooldown": 8,
+      "windup": 0.38,
+      "interrupt": true,
+      "detonate": "static"
+    },
+    "Ember": {
+      "type": "Fire",
+      "power": 40,
+      "rate": 0.36,
+      "speed": 480,
+      "description": "Fireball that burns non-Fire targets for three ticks.",
+      "cooldown": 0.7,
+      "burn": 3
+    },
+    "Scratch": {
+      "type": "Normal",
+      "power": 40,
+      "rate": 0.32,
+      "physical": true,
+      "kind": "melee",
+      "reach": 100,
+      "description": "Lunging claw sweep. Deals 35% more damage to burning targets.",
+      "cooldown": 2.1,
+      "dash": 260,
+      "exploit": "burn"
+    },
+    "Flamethrower": {
+      "type": "Fire",
+      "power": 90,
+      "speed": 530,
+      "count": 5,
+      "spread": 0.16,
+      "life": 0.6,
+      "description": "Three short flame cones. Pressure a lane and keep your target burning.",
+      "cooldown": 6,
+      "pulses": 3,
+      "pulseInterval": 0.16,
+      "burn": 2
+    },
+    "Flame Burst": {
+      "type": "Fire",
+      "power": 70,
+      "speed": 400,
+      "size": 18,
+      "visual": "lob",
+      "stun": 0.32,
+      "description": "An arcing fireball leaves a burning patch for 3 seconds.",
+      "cooldown": 7.5,
+      "windup": 0.25,
+      "field": {
+        "type": "Fire",
+        "r": 95,
+        "duration": 3,
+        "power": 18,
+        "burn": 2
+      }
+    },
+    "Water Gun": {
+      "type": "Water",
+      "power": 40,
+      "rate": 0.3,
+      "speed": 550,
+      "description": "Quick water shot that briefly slows its target.",
+      "cooldown": 0.65,
+      "slow": 0.65
+    },
+    "Tackle": {
+      "type": "Normal",
+      "power": 40,
+      "rate": 0.55,
+      "physical": true,
+      "kind": "melee",
+      "reach": 110,
+      "dash": 700,
+      "description": "A forward body dash. Reduces incoming damage by 45% for 1.5 seconds.",
+      "cooldown": 3.5,
+      "guard": 1.5
+    },
+    "Water Pulse": {
+      "type": "Water",
+      "power": 60,
+      "speed": 450,
+      "size": 16,
+      "slow": 2.4,
+      "description": "Large slowing water orb with strong knockback. Create space or set up a heavy shot.",
+      "cooldown": 4.8,
+      "knockback": 1.6
+    },
+    "Hydro Pump": {
+      "type": "Water",
+      "power": 110,
+      "speed": 850,
+      "size": 18,
+      "pierce": true,
+      "visual": "beam",
+      "description": "A delayed piercing water cannon. Recoil shifts you backward; interrupts a boss windup.",
+      "cooldown": 8,
+      "windup": 0.4,
+      "backstep": 220,
+      "interrupt": true
+    },
+    "Vine Whip": {
+      "type": "Grass",
+      "power": 45,
+      "rate": 0.48,
+      "physical": true,
+      "kind": "melee",
+      "reach": 145,
+      "slow": 1.6,
+      "description": "Long forward vine sweep. Briefly roots the target, then slows it.",
+      "cooldown": 3.4,
+      "root": 0.5
+    },
+    "Razor Leaf": {
+      "type": "Grass",
+      "power": 55,
+      "rate": 0.48,
+      "speed": 620,
+      "physical": true,
+      "pierce": true,
+      "visual": "leaf",
+      "size": 9,
+      "description": "Fast piercing leaf blade. Reliable ranged pressure.",
+      "cooldown": 0.8
+    },
+    "Seed Bomb": {
+      "type": "Grass",
+      "power": 80,
+      "speed": 390,
+      "size": 19,
+      "physical": true,
+      "visual": "lob",
+      "stun": 0.4,
+      "description": "Heavy seed leaves a slowing bramble patch. Hits slowed or rooted foes 25% harder.",
+      "cooldown": 6,
+      "windup": 0.25,
+      "exploit": "slow",
+      "field": {
+        "type": "Grass",
+        "r": 110,
+        "duration": 3,
+        "power": 12,
+        "slow": 1.1
+      }
+    },
+    "Giga Drain": {
+      "type": "Grass",
+      "power": 75,
+      "speed": 380,
+      "homing": 2.5,
+      "drain": 0.45,
+      "size": 14,
+      "description": "Seeking orb that heals for 45% of actual damage. Deals 25% extra to slowed or rooted foes.",
+      "cooldown": 8,
+      "exploit": "slow"
+    },
+    "Hex": {
+      "type": "Ghost",
+      "power": 65,
+      "rate": 0.62,
+      "speed": 380,
+      "homing": 1.7,
+      "size": 9,
+      "description": "Homing spirit. Deals 30% extra damage to a poisoned, burned, slowed, or rooted target.",
+      "cooldown": 0.9,
+      "exploit": "status"
+    },
+    "Shadow Claw": {
+      "type": "Ghost",
+      "power": 70,
+      "rate": 0.55,
+      "physical": true,
+      "kind": "melee",
+      "reach": 115,
+      "description": "A strong spectral claw sweep."
+    },
+    "Shadow Ball": {
+      "type": "Ghost",
+      "power": 80,
+      "speed": 430,
+      "homing": 1.1,
+      "size": 17,
+      "description": "Large seeking shadow orb. Long-range pressure with light tracking.",
+      "cooldown": 6,
+      "windup": 0.25
+    },
+    "Sludge Bomb": {
+      "type": "Poison",
+      "power": 90,
+      "speed": 370,
+      "size": 18,
+      "visual": "lob",
+      "poison": 3,
+      "description": "Arcing poison bomb leaves a toxic pool. Set up Hex against poisoned foes.",
+      "cooldown": 7,
+      "windup": 0.25,
+      "field": {
+        "type": "Poison",
+        "r": 100,
+        "duration": 3,
+        "power": 12,
+        "poison": 3
+      }
+    },
+    "Confusion": {
+      "type": "Psychic",
+      "power": 50,
+      "rate": 0.45,
+      "speed": 690,
+      "pierce": true,
+      "visual": "beam",
+      "life": 1.5,
+      "description": "Piercing psychic dart. Builds Focus marks to empower Psychic.",
+      "cooldown": 0.75,
+      "mark": "focus"
+    },
+    "Psycho Cut": {
+      "type": "Psychic",
+      "power": 70,
+      "rate": 0.58,
+      "speed": 580,
+      "physical": true,
+      "visual": "slash",
+      "pierce": true,
+      "description": "Throw a piercing crescent while stepping backward. Builds Focus for Psychic.",
+      "cooldown": 3.2,
+      "backstep": 520,
+      "mark": "focus"
+    },
+    "Psychic": {
+      "type": "Psychic",
+      "power": 90,
+      "speed": 1100,
+      "size": 14,
+      "pierce": true,
+      "visual": "beam",
+      "stun": 0.45,
+      "life": 1.6,
+      "description": "Delayed psychic lance. Consumes Focus marks for bonus damage and interrupts a boss windup.",
+      "cooldown": 7.5,
+      "windup": 0.45,
+      "detonate": "focus",
+      "interrupt": true
+    },
+    "Recover": {
+      "type": "Normal",
+      "power": 0,
+      "kind": "heal",
+      "heal": 0.25,
+      "description": "Recover 25% HP, clear burn/poison/slow/root, and briefly reduce incoming damage.",
+      "cooldown": 17,
+      "cleanse": true,
+      "guard": 0.8
+    },
+    "Mach Punch": {
+      "type": "Fighting",
+      "power": 40,
+      "rate": 0.38,
+      "physical": true,
+      "kind": "melee",
+      "reach": 110,
+      "dash": 500,
+      "description": "Gap-closing punch. Builds a short-lived combo; every third combo hit staggers.",
+      "cooldown": 0.85,
+      "combo": true
+    },
+    "Bullet Punch": {
+      "type": "Steel",
+      "power": 40,
+      "rate": 0.3,
+      "physical": true,
+      "kind": "melee",
+      "reach": 100,
+      "description": "Fast steel strike with a short guard window. Builds the melee combo.",
+      "cooldown": 1.3,
+      "combo": true,
+      "guard": 0.55
+    },
+    "Dynamic Punch": {
+      "type": "Fighting",
+      "power": 100,
+      "physical": true,
+      "kind": "melee",
+      "reach": 145,
+      "stun": 0.65,
+      "dash": 380,
+      "description": "Heavy stunning lunge. Consumes combo stacks for bonus damage and interrupts a boss windup.",
+      "cooldown": 6,
+      "windup": 0.3,
+      "consumeCombo": true,
+      "interrupt": true
+    },
+    "Close Combat": {
+      "type": "Fighting",
+      "power": 120,
+      "physical": true,
+      "kind": "melee",
+      "reach": 130,
+      "count": 3,
+      "interval": 0.13,
+      "description": "Three-hit close combo. Stay in reach; each hit advances your combo chain.",
+      "cooldown": 7.5,
+      "combo": true
+    },
+    "Swift": {
+      "type": "Normal",
+      "power": 60,
+      "rate": 0.55,
+      "speed": 460,
+      "homing": 3,
+      "visual": "star",
+      "count": 3,
+      "interval": 0.07,
+      "description": "Three seeking stars. Reliable pressure while moving; total damage is split across the burst.",
+      "cooldown": 0.85
+    },
+    "Double-Edge": {
+      "type": "Normal",
+      "power": 120,
+      "physical": true,
+      "kind": "melee",
+      "reach": 145,
+      "dash": 900,
+      "recoil": 0.2,
+      "description": "A heavy committed dash. Deals 20% extra during a speed boost, but inflicts 20% damage recoil.",
+      "cooldown": 6,
+      "exploit": "haste"
+    },
+    "Lick": {
+      "type": "Ghost",
+      "power": 30,
+      "rate": 0.4,
+      "physical": true,
+      "kind": "melee",
+      "reach": 120,
+      "slow": 2.4,
+      "description": "Short ghost-type strike. Slows the target to set up Body Slam.",
+      "cooldown": 0.8
+    },
+    "Body Slam": {
+      "type": "Normal",
+      "power": 85,
+      "physical": true,
+      "kind": "radial",
+      "reach": 155,
+      "stun": 0.6,
+      "description": "Staggering shockwave all around you. Punishes slowed foes and interrupts a boss windup.",
+      "cooldown": 6.5,
+      "windup": 0.28,
+      "interrupt": true,
+      "exploit": "slow"
+    },
+    "Rest": {
+      "type": "Psychic",
+      "power": 0,
+      "kind": "heal",
+      "heal": 0.3,
+      "recovery": 0.9,
+      "description": "Heal 30% HP and clear statuses, then remain vulnerable during a 0.9-second recovery.",
+      "cooldown": 20,
+      "cleanse": true
+    },
+    "Wing Attack": {
+      "type": "Flying",
+      "power": 60,
+      "rate": 0.48,
+      "physical": true,
+      "kind": "melee",
+      "reach": 145,
+      "description": "A lunging wing sweep that pushes the target away.",
+      "cooldown": 3,
+      "knockback": 1.8,
+      "dash": 280
+    },
+    "Fire Blast": {
+      "type": "Fire",
+      "power": 110,
+      "speed": 480,
+      "count": 5,
+      "spread": 0.12,
+      "size": 13,
+      "description": "Delayed five-fireball fan. Heavy pressure that burns non-Fire targets.",
+      "cooldown": 8,
+      "windup": 0.4,
+      "burn": 3
+    },
+    "Bite": {
+      "type": "Dark",
+      "power": 60,
+      "rate": 0.5,
+      "physical": true,
+      "kind": "melee",
+      "reach": 110,
+      "stun": 0.16,
+      "description": "Close dark-type bite. A fast opportunity to interrupt a boss windup.",
+      "cooldown": 2.4,
+      "interrupt": true
+    },
+    "Solar Beam": {
+      "type": "Grass",
+      "power": 120,
+      "speed": 1000,
+      "size": 17,
+      "visual": "beam",
+      "pierce": true,
+      "life": 1.5,
+      "description": "Commit to a long windup for a piercing solar lance. Stronger against slowed foes.",
+      "cooldown": 9,
+      "windup": 0.65,
+      "interrupt": true,
+      "exploit": "slow"
+    },
+    "Sucker Punch": {
+      "type": "Dark",
+      "power": 70,
+      "rate": 0.6,
+      "physical": true,
+      "kind": "melee",
+      "reach": 115,
+      "dash": 0,
+      "description": "Shadow-step forward and strike. Deals 35% extra while a boss is recovering.",
+      "cooldown": 4.2,
+      "blink": 150,
+      "evade": 0.16,
+      "exploit": "recovery"
+    },
+    "Boss Fire Shot": {
+      "type": "Fire",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Fire Strike": {
+      "type": "Fire",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Fire Burst": {
+      "type": "Fire",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Fire Wave": {
+      "type": "Fire",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Electric Shot": {
+      "type": "Electric",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Electric Strike": {
+      "type": "Electric",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Electric Burst": {
+      "type": "Electric",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Electric Wave": {
+      "type": "Electric",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Water Shot": {
+      "type": "Water",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Water Strike": {
+      "type": "Water",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Water Burst": {
+      "type": "Water",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Water Wave": {
+      "type": "Water",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Ice Shot": {
+      "type": "Ice",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Ice Strike": {
+      "type": "Ice",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Ice Burst": {
+      "type": "Ice",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Ice Wave": {
+      "type": "Ice",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Bug Shot": {
+      "type": "Bug",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Bug Strike": {
+      "type": "Bug",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": true,
+      "description": "Boss close strike."
+    },
+    "Boss Bug Burst": {
+      "type": "Bug",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Bug Wave": {
+      "type": "Bug",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Rock Shot": {
+      "type": "Rock",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Rock Strike": {
+      "type": "Rock",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": true,
+      "description": "Boss close strike."
+    },
+    "Boss Rock Burst": {
+      "type": "Rock",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Rock Wave": {
+      "type": "Rock",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Ground Shot": {
+      "type": "Ground",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Ground Strike": {
+      "type": "Ground",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": true,
+      "description": "Boss close strike."
+    },
+    "Boss Ground Burst": {
+      "type": "Ground",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Ground Wave": {
+      "type": "Ground",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Poison Shot": {
+      "type": "Poison",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Poison Strike": {
+      "type": "Poison",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Poison Burst": {
+      "type": "Poison",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Poison Wave": {
+      "type": "Poison",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Dragon Shot": {
+      "type": "Dragon",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Dragon Strike": {
+      "type": "Dragon",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Dragon Burst": {
+      "type": "Dragon",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Dragon Wave": {
+      "type": "Dragon",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Flying Shot": {
+      "type": "Flying",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Flying Strike": {
+      "type": "Flying",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": true,
+      "description": "Boss close strike."
+    },
+    "Boss Flying Burst": {
+      "type": "Flying",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Flying Wave": {
+      "type": "Flying",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    },
+    "Boss Psychic Shot": {
+      "type": "Psychic",
+      "power": 48,
+      "rate": 0.6,
+      "speed": 430,
+      "size": 10,
+      "life": 2.7,
+      "description": "Boss elemental projectile."
+    },
+    "Boss Psychic Strike": {
+      "type": "Psychic",
+      "power": 65,
+      "rate": 0.7,
+      "kind": "melee",
+      "reach": 135,
+      "physical": false,
+      "description": "Boss close strike."
+    },
+    "Boss Psychic Burst": {
+      "type": "Psychic",
+      "power": 70,
+      "cost": 50,
+      "speed": 490,
+      "size": 13,
+      "life": 2.5,
+      "description": "Boss heavy projectile."
+    },
+    "Boss Psychic Wave": {
+      "type": "Psychic",
+      "power": 65,
+      "cost": 50,
+      "kind": "radial",
+      "reach": 165,
+      "description": "Boss radial shockwave."
+    }
+  },
+  "typeChart": {
+    "Ground": {
+      "Poison": 2,
+      "Rock": 2,
+      "Steel": 2,
+      "Fire": 2,
+      "Electric": 2,
+      "Bug": 0.5,
+      "Grass": 0.5,
+      "Flying": 0
+    },
+    "Electric": {
+      "Flying": 2,
+      "Water": 2,
+      "Grass": 0.5,
+      "Electric": 0.5,
+      "Dragon": 0.5,
+      "Ground": 0
+    },
+    "Bug": {
+      "Grass": 2,
+      "Psychic": 2,
+      "Dark": 2,
+      "Fighting": 0.5,
+      "Flying": 0.5,
+      "Poison": 0.5,
+      "Ghost": 0.5,
+      "Steel": 0.5,
+      "Fire": 0.5,
+      "Fairy": 0.5
+    },
+    "Ice": {
+      "Flying": 2,
+      "Ground": 2,
+      "Grass": 2,
+      "Dragon": 2,
+      "Steel": 0.5,
+      "Fire": 0.5,
+      "Water": 0.5,
+      "Ice": 0.5
+    },
+    "Dragon": {
+      "Dragon": 2,
+      "Steel": 0.5,
+      "Fairy": 0
+    },
+    "Psychic": {
+      "Fighting": 2,
+      "Poison": 2,
+      "Steel": 0.5,
+      "Psychic": 0.5,
+      "Dark": 0
+    },
+    "Fighting": {
+      "Normal": 2,
+      "Rock": 2,
+      "Steel": 2,
+      "Ice": 2,
+      "Dark": 2,
+      "Flying": 0.5,
+      "Poison": 0.5,
+      "Bug": 0.5,
+      "Psychic": 0.5,
+      "Fairy": 0.5,
+      "Ghost": 0
+    },
+    "Water": {
+      "Ground": 2,
+      "Rock": 2,
+      "Fire": 2,
+      "Water": 0.5,
+      "Grass": 0.5,
+      "Dragon": 0.5
+    },
+    "Poison": {
+      "Grass": 2,
+      "Fairy": 2,
+      "Poison": 0.5,
+      "Ground": 0.5,
+      "Rock": 0.5,
+      "Ghost": 0.5,
+      "Steel": 0
+    },
+    "Normal": {
+      "Rock": 0.5,
+      "Steel": 0.5,
+      "Ghost": 0
+    },
+    "Flying": {
+      "Fighting": 2,
+      "Bug": 2,
+      "Grass": 2,
+      "Rock": 0.5,
+      "Steel": 0.5,
+      "Electric": 0.5
+    },
+    "Ghost": {
+      "Ghost": 2,
+      "Psychic": 2,
+      "Dark": 0.5,
+      "Normal": 0
+    },
+    "Rock": {
+      "Flying": 2,
+      "Bug": 2,
+      "Fire": 2,
+      "Ice": 2,
+      "Fighting": 0.5,
+      "Ground": 0.5,
+      "Steel": 0.5
+    },
+    "Dark": {
+      "Ghost": 2,
+      "Psychic": 2,
+      "Fighting": 0.5,
+      "Dark": 0.5,
+      "Fairy": 0.5
+    },
+    "Steel": {
+      "Rock": 2,
+      "Ice": 2,
+      "Fairy": 2,
+      "Steel": 0.5,
+      "Fire": 0.5,
+      "Water": 0.5,
+      "Electric": 0.5
+    },
+    "Fairy": {
+      "Fighting": 2,
+      "Dragon": 2,
+      "Dark": 2,
+      "Poison": 0.5,
+      "Steel": 0.5,
+      "Fire": 0.5
+    },
+    "Grass": {
+      "Ground": 2,
+      "Rock": 2,
+      "Water": 2,
+      "Flying": 0.5,
+      "Poison": 0.5,
+      "Bug": 0.5,
+      "Steel": 0.5,
+      "Fire": 0.5,
+      "Grass": 0.5,
+      "Dragon": 0.5
+    },
+    "Fire": {
+      "Bug": 2,
+      "Steel": 2,
+      "Grass": 2,
+      "Ice": 2,
+      "Rock": 0.5,
+      "Fire": 0.5,
+      "Water": 0.5,
+      "Dragon": 0.5
+    }
+  }
+}

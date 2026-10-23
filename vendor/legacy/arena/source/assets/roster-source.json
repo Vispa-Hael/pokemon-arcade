@@ -1,0 +1,97 @@
+{
+  "source": "PokéAPI bulk tables, existing locally validated catalog",
+  "pokemon": {
+    "Bulbasaur": {
+      "id": 1,
+      "type": [
+        "Grass",
+        "Poison"
+      ],
+      "stats": [
+        45,
+        49,
+        49,
+        65,
+        65,
+        45
+      ],
+      "weight": 6.9
+    },
+    "Gengar": {
+      "id": 94,
+      "type": [
+        "Ghost",
+        "Poison"
+      ],
+      "stats": [
+        60,
+        65,
+        60,
+        130,
+        75,
+        110
+      ],
+      "weight": 40.5
+    },
+    "Alakazam": {
+      "id": 65,
+      "type": [
+        "Psychic"
+      ],
+      "stats": [
+        55,
+        50,
+        45,
+        135,
+        95,
+        120
+      ],
+      "weight": 48
+    },
+    "Machamp": {
+      "id": 68,
+      "type": [
+        "Fighting"
+      ],
+      "stats": [
+        90,
+        130,
+        80,
+        65,
+        85,
+        55
+      ],
+      "weight": 130
+    },
+    "Eevee": {
+      "id": 133,
+      "type": [
+        "Normal"
+      ],
+      "stats": [
+        55,
+        55,
+        50,
+        45,
+        65,
+        55
+      ],
+      "weight": 6.5
+    },
+    "Snorlax": {
+      "id": 143,
+      "type": [
+        "Normal"
+      ],
+      "stats": [
+        160,
+        110,
+        65,
+        65,
+        110,
+        30
+      ],
+      "weight": 460
+    }
+  }
+}

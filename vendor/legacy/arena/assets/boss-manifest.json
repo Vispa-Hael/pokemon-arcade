@@ -1,0 +1,39 @@
+{
+  "added": [
+    "Arcanine",
+    "Ninetales",
+    "Rapidash",
+    "Jolteon",
+    "Raichu",
+    "Electabuzz",
+    "Vaporeon",
+    "Gyarados",
+    "Lapras",
+    "Cloyster",
+    "Scyther",
+    "Pinsir",
+    "Golem",
+    "Rhydon",
+    "Nidoking",
+    "Nidoqueen",
+    "Dragonite",
+    "Aerodactyl",
+    "Mewtwo",
+    "Articuno"
+  ],
+  "totalBosses": 32,
+  "playable": [
+    "Pikachu",
+    "Charmander",
+    "Squirtle",
+    "Bulbasaur",
+    "Gengar",
+    "Alakazam",
+    "Machamp",
+    "Eevee",
+    "Snorlax",
+    "Charizard",
+    "Blastoise",
+    "Venusaur"
+  ]
+}
