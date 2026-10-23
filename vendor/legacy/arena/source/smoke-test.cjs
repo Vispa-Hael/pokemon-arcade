@@ -46,3 +46,19 @@ assert(Math.abs(run('bounds.w*bounds.h')/(984*510)-3)<1e-9,'Triple-area field pr
 console.log('PASS: four right-hand move keys, one press per cast, independent cooldowns, windups, locked aim, interruptions, guard, cleanse, marks, combos, zones, all 48 equipped moves, and all 32 three-phase bosses');
 begin();listeners.keydown({code:'KeyL',ctrlKey:true,repeat:false,preventDefault(){throw Error('Browser shortcut must not be prevented')}});step();assert(run('p.cooldowns.every(c=>c===0)&&attackRequests.length===0'),'Control/Command/Alt shortcuts do not cast moves');
 console.log('PASS: browser modifier shortcuts stay available');
+
+run('delete savedKits.Pikachu');
+// Keyboard-only players must be able to punish Mewtwo without exact-angle aiming.
+begin('Pikachu','Mewtwo');run('b.x=700;b.y=470;p.dx=1;p.dy=0;');
+assert(run("playerAim(moves['Thunder Shock']).dy>0"),'Assist corrects a nearby forward angle');
+run('p.dx=-1;p.dy=0');assert.strictEqual(run("playerAim(moves['Thunder Shock']).dx"),-1,'Assist never turns shots toward a boss behind the player');
+run('p.dx=1');assert.strictEqual(run("playerAim(moves['Quick Attack']).dy"),0,'Melee keeps movement direction');
+begin('Pikachu','Mewtwo');run('b.bossProfile=species.Mewtwo.bossProfile;p.hp=p.max=999999;bossCD=0;');
+for(let i=0;i<1200&&run('running');i++){
+ run('{const aim=Math.round(Math.atan2(b.y-p.y,b.x-p.x)/(Math.PI/4))*Math.PI/4;p.dx=Math.cos(aim);p.dy=Math.sin(aim);castAbility(0);}');step();
+}
+assert(run('b.hp<b.max-40'),'Eight-direction rapid attacks land repeatedly against active Mewtwo');
+console.log('PASS: keyboard-only Pikachu hit Mewtwo for '+Math.round(run('b.max-b.hp'))+' damage');
+begin('Pikachu','Mewtwo');run('b.bossProfile=species.Mewtwo.bossProfile;resolveBossZone({owner:b,event:"blink",x:650,y:430,type:"Psychic"});');
+const landing=run('[b.x,b.y]');step(45);assert(run('b.x')===landing[0]&&run('b.y')===landing[1],'Mewtwo holds still during its post-teleport opening');
+assert(run('b.inv===0'),'Teleport recovery never makes Mewtwo invulnerable');

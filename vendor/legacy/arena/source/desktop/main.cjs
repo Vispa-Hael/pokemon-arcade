@@ -45,7 +45,7 @@ async function runSmoke(window) {
       check(Object.values(species).filter(s=>!s.bossOnly).length===12,'Playable roster must remain twelve');
       check(view.assets.size<=2,'Startup must load only initial fighters');
       start();bossCD=100;keys.KeyD=true;for(let i=0;i<30;i++)update(1/60);keys.KeyD=false;
-      check(p.x>390,'Movement failed');castAbility(0);check(shots.length>0&&shots[0].dx===1,'Directional attack failed');
+      check(p.x>390,'Movement failed');castAbility(0);check(shots.length>0&&shots[0].dx>=Math.cos(Math.PI/6),'Forward aim assist failed');
       check(p.cooldowns[0]>0&&p.cooldowns[2]===0,'Independent cooldowns failed');update(.12);castAbility(2);check(p.cooldowns[2]>0,'Third move must work without energy');pause();const frozen=time;update(.1);check(time===frozen,'Pause failed');pause();
       start(true);for(let i=0;i<3600&&running;i++){update(1/60);if(i%60===0)draw(1);}check(b.hp<b.max,'Sample failed to deal damage');
       const sample=arenaSnapshot(),validated=[];

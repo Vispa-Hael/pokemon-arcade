@@ -185,3 +185,7 @@ Player ability depth:
 - Flame Burst, Seed Bomb and Sludge Bomb leave visible 3-second ground effects. Flamethrower releases three timed waves; total power is split across pulses and pellets.
 
 All effects and timing are custom arena adaptations. Base stats and type relationships are retained. The previous version sections below/above document historical mechanics; the controls and four-move system described here supersede their energy-based player rules.
+
+## Keyboard aim and Mewtwo balance
+
+Ranged moves assist within 30 degrees of your facing direction and at most 850 arena units, with limited movement prediction. They do not turn around to hit bosses behind you; melee, radial moves and healing keep their original behavior. Heavy moves still lock their aim at the start of their windup. Mewtwo circles at a lower speed, evades less often, and remains stationary for 1.15 seconds after teleporting. Its follow-up attack still has its own warning.

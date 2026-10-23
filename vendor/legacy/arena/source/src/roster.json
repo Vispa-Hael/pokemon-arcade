@@ -1309,7 +1309,7 @@
       "weight": 122,
       "color": "#e6a7de",
       "role": "Psychic conductor",
-      "description": "Teleports into new angles, leads movement, and chains psychic lanes.",
+      "description": "Teleports into new angles, then pauses to recover. Face it and punish the landing before the psychic lanes.",
       "ai": "blink",
       "rapid": [
         "Boss Psychic Shot",
@@ -1328,10 +1328,12 @@
           "rain"
         ],
         "range": 370,
-        "speed": 0.85,
-        "evade": 1,
+        "speed": 0.64,
+        "evade": 0.4,
         "type": "Psychic",
-        "height": 3.4
+        "height": 3.4,
+        "blinkRecovery": 1.15,
+        "recoveryStop": true
       }
     },
     "Articuno": {

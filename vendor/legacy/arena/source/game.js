@@ -36,11 +36,22 @@ function hud(){if(!p)return;$('playerLabel').textContent=p.name.toUpperCase();$(
  $('phase').textContent='PHASE '+phase+' · '+(b.dash?'DASHING':b.moveState||b.role.toUpperCase())+(b.slow>0?' · SLOWED':'')+(b.poison>0?' · POISONED':'')+(b.burn>0?' · BURNING':'')+(b.root>0?' · ROOTED':'')+Object.entries(b.marks).filter(([,m])=>m.expires>=time).map(([name,m])=>' · '+name.toUpperCase()+' '+m.stacks).join('');
  for(let i=0;i<4;i++){const m=moves[equipped[i]],cd=p.cooldowns[i]||0,casting=playerCast?.slot===i;$('abilityState'+i).textContent=casting?'CASTING':cd>0?cd.toFixed(1)+'s':!running?'READY':p.stun>0?'STAGGERED':'READY';$('ability'+i).style.setProperty?.('--cooldown',Math.max(0,Math.min(100,cd/m.cooldown*100))+'%');$('ability'+i).setAttribute('aria-label',moveKeys[i]+': '+equipped[i]+(cd>0?', cooldown '+cd.toFixed(1)+' seconds':', ready'));$('ability'+i).disabled=!running||paused||cd>0;$('move'+i).disabled=running;}
 }
+// Keyboard movement offers eight directions; assist only within the facing cone.
+function playerAim(m){
+ const facing=Math.atan2(p.dy,p.dx),distance=Math.hypot(b.x-p.x,b.y-p.y);
+ if(m.kind==='melee'||m.kind==='radial'||m.kind==='heal'||!m.speed||distance>Math.min(850,m.speed*(m.life||1.25)))return {dx:p.dx,dy:p.dy};
+ const direct=Math.atan2(b.y-p.y,b.x-p.x),difference=Math.atan2(Math.sin(direct-facing),Math.cos(direct-facing));
+ if(Math.abs(difference)>Math.PI/6)return {dx:p.dx,dy:p.dy};
+ const travel=Math.min(.65,distance/m.speed),leadX=(b.moveX||0)*travel,leadY=(b.moveY||0)*travel;
+ const predicted=Math.atan2(b.y+leadY-p.y,b.x+leadX-p.x),delta=Math.atan2(Math.sin(predicted-facing),Math.cos(predicted-facing));
+ const angle=facing+Math.max(-Math.PI/6,Math.min(Math.PI/6,delta));
+ return {dx:Math.cos(angle),dy:Math.sin(angle)};
+}
 function castAbility(slot){
  if(!running||paused||view.inspection||p.stun>0||slot<0||slot>3||p.cooldowns[slot]>0||castLock>0||playerCast)return false;
- const name=equipped[slot],m=moves[name];p.cooldowns[slot]=m.cooldown;castLock=.1;
- if(m.windup){playerCast={name,slot,move:m,t:m.windup,total:m.windup,dx:p.dx,dy:p.dy};p.attackSerial++;p.attackCharged=true;}
- else releaseAbility(name,slot,m,p.dx,p.dy);
+ const name=equipped[slot],m=moves[name],aim=playerAim(m);p.cooldowns[slot]=m.cooldown;castLock=.1;
+ if(m.windup){playerCast={name,slot,move:m,t:m.windup,total:m.windup,dx:aim.dx,dy:aim.dy};p.attackSerial++;p.attackCharged=true;}
+ else releaseAbility(name,slot,m,aim.dx,aim.dy);
  return true;
 }
 function releaseAbility(name,slot,m,dx,dy){
@@ -188,7 +199,7 @@ function moveBoss(dt){
   return;
  }
  const a=Math.atan2(p.y-b.y,p.x-b.x),distance=Math.hypot(p.x-b.x,p.y-b.y);b.dx=Math.cos(a);b.dy=Math.sin(a);
- if(b.stun>0||b.root>0)return;
+ if(b.stun>0||b.root>0){b.moveX=b.moveY=0;return;}
  if(b.evadeCD<=0&&b.windup<=0&&b.recovery<=0&&profile.evade>0){
   const incoming=shots.find(s=>s.owner===p&&s.delay<=0&&s.m.kind!=='melee'&&Math.hypot(s.x-b.x,s.y-b.y)<170&&((b.x-s.x)*s.dx+(b.y-s.y)*s.dy)>0);
   if(incoming){
@@ -203,7 +214,7 @@ function moveBoss(dt){
  // Push off arena edges so circling cannot get stuck against a wall.
  const margin=110;if(b.x<bounds.x+margin)mx+=1.7;if(b.x>bounds.x+bounds.w-margin)mx-=1.7;if(b.y<bounds.y+margin)my+=1.7;if(b.y>bounds.y+bounds.h-margin)my-=1.7;
  const norm=Math.max(1,Math.hypot(mx,my)),speed=b.speed*profile.speed*(phase>=2?1.12:1)*(b.slow>0?.58:1)*(b.windup>0?.22:b.recovery>0?.35:b.strafeBoost>0?1.25:1);
- b.x+=mx/norm*speed*dt;b.y+=my/norm*speed*dt;b.moveState=b.windup>0?'WINDUP':b.recovery>0?'RECOVERING':radial>.7?'PURSUING':radial<-.7?'RETREATING':'CIRCLING';
+ const movingSpeed=profile.recoveryStop&&b.recovery>0?0:speed;b.moveX=mx/norm*movingSpeed;b.moveY=my/norm*movingSpeed;b.x+=b.moveX*dt;b.y+=b.moveY*dt;b.moveState=b.windup>0?'WINDUP':b.recovery>0?'RECOVERING':radial>.7?'PURSUING':radial<-.7?'RETREATING':'CIRCLING';
 }
 function resolveBossZone(z){
  const owner=z.owner||b,m=z.m||bossShot();
@@ -211,7 +222,7 @@ function resolveBossZone(z){
  switch(z.event){
  case 'dash':owner.dash={dx:Math.cos(z.a),dy:Math.sin(z.a),speed:z.dashSpeed,t:z.duration,m,hits:new Set()};owner.dx=owner.dash.dx;owner.dy=owner.dash.dy;break;
  case 'blink':{
-  burst(owner.x,owner.y,colors[z.type]||'#fff',24);owner.x=z.x;owner.y=z.y;owner.vx=owner.vy=0;burst(owner.x,owner.y,colors[z.type]||'#fff',24);
+  burst(owner.x,owner.y,colors[z.type]||'#fff',24);owner.x=z.x;owner.y=z.y;owner.vx=owner.vy=owner.moveX=owner.moveY=0;owner.recovery=Math.max(owner.recovery,owner.bossProfile.blinkRecovery||.38);if(owner.bossProfile.blinkRecovery)notify(owner.name+' reappeared � attack now!');burst(owner.x,owner.y,colors[z.type]||'#fff',24);
   const angle=Math.atan2(p.y-owner.y,p.x-owner.x);owner.dx=Math.cos(angle);owner.dy=Math.sin(angle);
   // A fresh telegraph after appearing makes the follow-up dodgeable.
   bossZone('volley',{event:'shot',follow:true,a:angle,t:.55,m:bossShot({count:3,spread:.2,homing:.6})});break;}
