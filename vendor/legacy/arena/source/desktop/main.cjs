@@ -44,10 +44,9 @@ async function runSmoke(window) {
       check(Object.keys(species).length===32,'32 bosses required');
       check(Object.values(species).filter(s=>!s.bossOnly).length===12,'Playable roster must remain twelve');
       check(view.assets.size<=2,'Startup must load only initial fighters');
-      start();bossCD=100;keys.KeyD=true;for(let i=0;i<30;i++)update(1/60);keys.KeyD=false;
-      check(p.x>390,'Movement failed');castAbility(0);check(shots.length>0&&shots[0].dx>=Math.cos(Math.PI/6),'Forward aim assist failed');
-      check(p.cooldowns[0]>0&&p.cooldowns[2]===0,'Independent cooldowns failed');update(.12);castAbility(2);check(p.cooldowns[2]>0,'Third move must work without energy');pause();const frozen=time;update(.1);check(time===frozen,'Pause failed');pause();
-      start(true);for(let i=0;i<3600&&running;i++){update(1/60);if(i%60===0)draw(1);}check(b.hp<b.max,'Sample failed to deal damage');
+      start();const openingX=p.x;for(let i=0;i<90;i++)update(1/60);check(p.x!==openingX&&p.attackSerial>0,'Autonomous movement and attacks failed');
+      pause();const frozen=time;update(.1);check(time===frozen,'Pause failed');pause();
+      start();for(let i=0;i<3600&&running;i++){update(1/60);if(i%60===0)draw(1);}check(b.hp<b.max,'Auto battle failed to deal damage');
       const sample=arenaSnapshot(),validated=[];
       for(const name of Object.keys(species)){
         await view.prepare(['Pikachu',name]);const rig=view.assets.get(name);
@@ -65,7 +64,7 @@ async function runSmoke(window) {
       for(const name of Object.keys(species).filter(n=>!species[n].bossOnly)){
         await view.prepare([name,'Blastoise']);selected=name;$('boss').value='Blastoise';loadout();start();bossCD=100;
         for(let slot=0;slot<4;slot++){
-          setup();running=true;bossCD=100;p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=505;b.y=370;
+          setup();running=true;demo=false;bossCD=100;p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=505;b.y=370;
           check(castAbility(slot),name+' slot '+slot+' must be castable');
           for(let i=0;i<60;i++){update(1/60);if(i%10===0)draw(1/60);}
           check(Number.isFinite(p.hp)&&Number.isFinite(b.hp),name+' invalid combat values');
@@ -73,16 +72,13 @@ async function runSmoke(window) {
         }
       }
       await view.prepare(['Pikachu','Blastoise']);selected='Pikachu';$('boss').value='Blastoise';loadout();start();bossCD=100;
-      for(const code of ['KeyJ','KeyK','KeyL','Semicolon'])window.dispatchEvent(new KeyboardEvent('keydown',{code,key:code==='Semicolon'?';':code.slice(-1).toLowerCase(),bubbles:true}));
-      for(let i=0;i<25;i++)update(1/60);
-      check(p.cooldowns.every(c=>c>0),'Right-hand four-key input failed');
-      for(const code of ['KeyJ','KeyK','KeyL','Semicolon'])window.dispatchEvent(new KeyboardEvent('keyup',{code,bubbles:true}));
+      check(!document.querySelector('kbd')&&!document.querySelector('.controls'),'Manual controls must be removed');
       await view.prepare(['Gengar']);selected='Gengar';$('boss').value='Gengar';loadout();start();draw(1/60);
       check(view.models.get('player').mesh!==view.models.get('boss').mesh,'Mirror models must be independent');
-      await view.prepare(['Pikachu','Blastoise']);selected='Pikachu';$('boss').value='Blastoise';loadout();start();bossCD=100;keys.KeyD=true;
+      await view.prepare(['Pikachu','Blastoise']);selected='Pikachu';$('boss').value='Blastoise';loadout();start();bossCD=100;
       for(let i=0;i<24;i++){update(1/60);draw(1/60);}check(view.models.get('player').rig.current==='run','Run transition failed');
       p.cooldowns[0]=0;castLock=0;castAbility(0);update(1/60);draw(1/60);check(view.models.get('player').rig.actions.strike.getEffectiveWeight()>0,'Attack animation failed');
-      keys.KeyD=false;for(let i=0;i<90;i++){update(1/60);draw(1/60);}check(view.models.get('player').rig.current==='idle','Idle transition failed');
+      demo=false;p.moveX=p.moveY=0;for(let i=0;i<90;i++){update(1/60);draw(1/60);}check(view.models.get('player').rig.current==='idle','Idle transition failed');
       pause();const mixerTime=view.models.get('player').rig.mixer.time;draw(.1);check(view.models.get('player').rig.mixer.time===mixerTime,'Animation pause failed');pause();
       $('inspect').onclick();check(paused&&view.inspection,'Studio must pause');await view.inspect('Mewtwo','idle');view.renderInspection(.04);$('closeInspect').onclick();check(!paused&&!view.inspection,'Studio exit failed');
       await view.prepare(['Pikachu','Mewtwo']);$('boss').value='Mewtwo';loadout();start();p.x=350;p.y=430;b.x=780;b.y=350;bossAttack();draw(1/60);

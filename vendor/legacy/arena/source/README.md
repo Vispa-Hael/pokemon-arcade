@@ -1,3 +1,15 @@
+# Pokémon Arena — auto-battle simulator (0.7.0)
+
+Choose a fighter, four equipped moves, and one of 32 bosses. Press **Start auto battle** and watch. Both Pokémon move, dodge, and attack automatically; no keyboard or click-to-attack controls. The AI manages range, cooldowns, marks, healing, and incoming danger. Pause, camera, and Model View remain spectator tools. The four move cards show cooldowns and casting status.
+
+Attacks now feature charge halos, curved travel trails, layered energy shells, beam cores, impact domes, shards, ground shockwaves, and short-lived light on nearby characters. Effects pause with the simulation.
+
+Windows: `dist/Pokemon-Arena-0.7.0-Windows.exe`. Browser: `index.html` after `npm run build:renderer`.
+
+## Earlier development notes
+
+The notes below describe previous versions. Keyboard play has been replaced by automatic battles.
+
 # Pokémon Arena 3D — local desktop game
 
 Double-click index.html to play in a current desktop browser. No server, download, account, or internet connection is required. Keep index.html, style.css, game.js, and the assets directory together.

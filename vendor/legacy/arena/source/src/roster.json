@@ -1309,7 +1309,7 @@
       "weight": 122,
       "color": "#e6a7de",
       "role": "Psychic conductor",
-      "description": "Teleports into new angles, then pauses to recover. Face it and punish the landing before the psychic lanes.",
+      "description": "Teleports into new angles, then pauses to recover before unleashing psychic lanes.",
       "ai": "blink",
       "rapid": [
         "Boss Psychic Shot",

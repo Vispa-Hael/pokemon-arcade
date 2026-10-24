@@ -4,12 +4,9 @@ function el(id){return elements[id]??=({style:{setProperty(){}},value:id==='boss
 const sandbox={Arena3D:{battleCatalog:JSON.parse(fs.readFileSync('src/roster.json','utf8')),View:class{render(){}setCamera(){}}},console,Math,document:{getElementById:el,createElement:()=>el(Math.random()),activeElement:{tagName:'BODY'}},window:{addEventListener:(n,cb)=>listeners[n]=cb},requestAnimationFrame(){}};
 vm.createContext(sandbox);vm.runInContext(fs.readFileSync('game.js','utf8'),sandbox);
 const run=code=>vm.runInContext(code,sandbox);
-function begin(name='Pikachu',boss='Blastoise'){run(`selected=${JSON.stringify(name)};$('boss').value=${JSON.stringify(boss)};loadout();start();bossCD=999;b.bossProfile={...b.bossProfile,speed:0,evade:0};p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=620;b.y=370;`)}
+function begin(name='Pikachu',boss='Blastoise'){run(`selected=${JSON.stringify(name)};$('boss').value=${JSON.stringify(boss)};loadout();start(false);bossCD=999;b.bossProfile={...b.bossProfile,speed:0,evade:0};p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=620;b.y=370;`)}
 const step=(n=1)=>run(`for(let i=0;i<${n}&&running;i++)update(1/60)`);
-begin();run('keys.KeyD=true');step(30);assert(run('p.x>500'),'WASD movement');run('keys.KeyD=false');
 begin();assert(run('castAbility(0)'),'Cast quick move');assert.strictEqual(run('shots[0].dx'),1,'Directional projectile');assert(!run('castAbility(0)'),'Cooldown prevents repeat');assert(run('p.cooldowns[0]>0&&p.cooldowns.slice(1).every(c=>c===0)'),'Cooldowns are independent');step(8);assert(run('castAbility(1)'),'Different slot works while first cools down');
-begin();for(const code of ['KeyJ','KeyK','KeyL','Semicolon'])listeners.keydown({code,repeat:false,preventDefault(){}});step(25);assert(run('p.cooldowns.every(c=>c>0)'),'Four right-hand keys activate four distinct slots');assert(run('playerCast?.name')==='Thunderbolt','Fourth move has a visible windup');
-begin();listeners.keydown({code:'KeyJ',repeat:false,preventDefault(){}});listeners.keydown({code:'KeyJ',repeat:true,preventDefault(){}});step(180);assert(run('p.attackSerial')===1,'Holding a key does not auto-repeat');
 begin();run('castAbility(2)');assert(run('shots.length>0'),'Heavy move works immediately with no energy requirement');assert(!run("'energy' in p"),'Energy gate removed');
 begin();run('castAbility(3)');assert(run('shots.length===0&&playerCast'),'Windup delays the shot');run('p.dx=0;p.dy=1');step(25);assert(run('shots.length>0&&shots[0].dx===1&&shots[0].dy===0'),'Heavy shot locks aim at key press');
 begin();run('castAbility(3);p.stun=.3');step();assert(run('!playerCast&&p.cooldowns[3]<=3'),'Stagger interrupts windup with partial cooldown refund');
@@ -43,9 +40,7 @@ for(const name of run('Object.keys(species)')){
  assert(run('b.x>=bounds.x+b.r&&b.x<=bounds.x+bounds.w-b.r'),name+': movement stays inside arena');
 }
 assert(Math.abs(run('bounds.w*bounds.h')/(984*510)-3)<1e-9,'Triple-area field preserved');
-console.log('PASS: four right-hand move keys, one press per cast, independent cooldowns, windups, locked aim, interruptions, guard, cleanse, marks, combos, zones, all 48 equipped moves, and all 32 three-phase bosses');
-begin();listeners.keydown({code:'KeyL',ctrlKey:true,repeat:false,preventDefault(){throw Error('Browser shortcut must not be prevented')}});step();assert(run('p.cooldowns.every(c=>c===0)&&attackRequests.length===0'),'Control/Command/Alt shortcuts do not cast moves');
-console.log('PASS: browser modifier shortcuts stay available');
+console.log('PASS: autonomous battles, independent cooldowns, windups, locked aim, interruptions, guard, cleanse, marks, combos, zones, all 48 equipped moves, and all 32 three-phase bosses');
 
 run('delete savedKits.Pikachu');
 // Keyboard-only players must be able to punish Mewtwo without exact-angle aiming.
@@ -58,7 +53,20 @@ for(let i=0;i<1200&&run('running');i++){
  run('{const aim=Math.round(Math.atan2(b.y-p.y,b.x-p.x)/(Math.PI/4))*Math.PI/4;p.dx=Math.cos(aim);p.dy=Math.sin(aim);castAbility(0);}');step();
 }
 assert(run('b.hp<b.max-40'),'Eight-direction rapid attacks land repeatedly against active Mewtwo');
-console.log('PASS: keyboard-only Pikachu hit Mewtwo for '+Math.round(run('b.max-b.hp'))+' damage');
+console.log('PASS: directional aiming test hit Mewtwo for '+Math.round(run('b.max-b.hp'))+' damage');
 begin('Pikachu','Mewtwo');run('b.bossProfile=species.Mewtwo.bossProfile;resolveBossZone({owner:b,event:"blink",x:650,y:430,type:"Psychic"});');
 const landing=run('[b.x,b.y]');step(45);assert(run('b.x')===landing[0]&&run('b.y')===landing[1],'Mewtwo holds still during its post-teleport opening');
 assert(run('b.inv===0'),'Teleport recovery never makes Mewtwo invulnerable');
+
+for(const name of run('Object.keys(species).filter(n=>!species[n].bossOnly)')){
+ begin(name);run('start();p.hp=p.max=999999;b.hp=b.max=999999;');const x=run('p.x');step(1800);
+ assert(run('demo&&p.attackSerial>=5'),name+': AI must choose attacks automatically');
+ assert(run('b.hp<b.max'),name+': AI must land damage');assert(run('p.x!=='+x),name+': AI must move');
+ assert(run('p.cooldowns.some(c=>c>0)'),name+': autonomous moves respect cooldowns');
+}
+begin();run('start();');assert(run('demo'),'Start defaults to automatic');run('pause()');const t=run('time');step(30);assert.strictEqual(run('time'),t,'Spectator pause freezes AI');
+assert(!listeners.keydown&&!listeners.keyup,'No manual keyboard combat handlers');
+assert(!fs.readFileSync('index.html','utf8').includes('<kbd>'),'No keyboard controls in the UI');
+console.log('PASS: all 12 fighters move, attack and deal damage automatically; no keyboard controls');
+
+assert(!/WASD|PRESS P|take control|SAMPLE RUN/.test(fs.readFileSync('game.js','utf8')),'No stale manual-play instructions');
