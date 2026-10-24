@@ -54,9 +54,9 @@ function completeTeamSwitch(){
  if(t.playerDown)teamMatch.playerIndex++;if(t.bossDown)teamMatch.bossIndex++;
  const playerName=teamMatch.party[teamMatch.playerIndex],bossName=teamMatch.opponents[teamMatch.bossIndex];
  function apply(){if(serial!==matchSerial)return;teamLoading=false;
-  if(t.playerDown){selected=playerName;equipped=[...(savedKits[selected]||species[selected].kit)];p=entity(selected,310,390);dodgeCD=0;}
+  if(t.playerDown){selected=playerName;editMember=teamMatch.playerIndex;equipped=[...(savedKits[selected]||species[selected].kit)];p=entity(selected,310,390);dodgeCD=0;}
   if(t.bossDown){$('boss').value=bossName;b=entity(bossName,815,370,true);}
-  teamTransition=null;resetExchange();refreshFighter();matchup();hud();updateTeamSummary();$('overlay').style.display='none';$('state').textContent=paused?'SIMULATION PAUSED':'TEAM BATTLE IN PROGRESS';notify((t.playerDown?playerName:chosenTrainer().name+' sends out '+bossName)+' enters the arena');
+  teamTransition=null;resetExchange();refreshFighter();$('editPokemon').value=String(editMember);matchup();hud();updateTeamSummary();$('overlay').style.display='none';$('state').textContent=paused?'SIMULATION PAUSED':'TEAM BATTLE IN PROGRESS';notify((t.playerDown?playerName:chosenTrainer().name+' sends out '+bossName)+' enters the arena');
  }
  if(view.prepare){teamLoading=true;$('state').textContent='PREPARING NEXT POKÉMON';view.prepare([playerName,bossName]).then(apply).catch(error=>{if(serial!==matchSerial)return;teamLoading=false;running=false;teamTransition=null;teamInterface();showOverlay('Could not prepare the next Pokémon',error.message+'<br>Start again to retry.');});}else apply();
 }
@@ -117,7 +117,7 @@ function start(auto=true){
   view.prepare([lead,opponent]).then(()=>{if(serial!==matchSerial)return;teamLoading=false;start(auto);}).catch(error=>{if(serial!==matchSerial)return;teamLoading=false;teamInterface();showOverlay('Could not prepare this matchup',error.message);});return;
  }
  matchSerial++;teamTransition=null;teamLoading=false;
- if(arenaMode==='teams'){selected=lead;$('boss').value=opponent;teamMatch={party:[...squad],opponents:[...chosenTrainer().team],playerIndex:0,bossIndex:0};refreshFighter();}
+ if(arenaMode==='teams'){selected=lead;editMember=0;$('boss').value=opponent;teamMatch={party:[...squad],opponents:[...chosenTrainer().team],playerIndex:0,bossIndex:0};refreshFighter();}
  demo=auto;setup();running=true;paused=false;teamInterface();$('overlay').style.display='none';$('state').textContent=arenaMode==='teams'?'TEAM BATTLE IN PROGRESS':'AUTO BATTLE IN PROGRESS';notify(selected+' is choosing its moves - enjoy the battle');
 }
 
