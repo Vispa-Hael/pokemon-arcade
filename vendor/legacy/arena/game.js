@@ -12,13 +12,62 @@ const colors={Electric:'#ffe76f',Fire:'#ff9761',Water:'#8de5ff',Grass:'#bcf28d',
 
 let selected='Pikachu',p,b,shots=[],sparks=[],zones=[],texts=[],running=false,paused=false,demo=false,time=0,dodgeCD=0,bossCD=2.2,toastTime=0,last=0,phase=1,demoClock=0,shotId=0,inspectResume=false;
 
+// Exhibition squads use the locally modeled roster, not historical game lineups.
+const trainerCatalog=[
+ {id:'brock',name:'Brock',title:'Pewter Gym Leader',badge:'Boulder',style:'Rock-solid pressure',team:['Golem','Rhydon','Aerodactyl']},
+ {id:'misty',name:'Misty',title:'Cerulean Gym Leader',badge:'Cascade',style:'Water control',team:['Vaporeon','Lapras','Blastoise']},
+ {id:'surge',name:'Lt. Surge',title:'Vermilion Gym Leader',badge:'Thunder',style:'Fast electric offense',team:['Pikachu','Electabuzz','Raichu']},
+ {id:'erika',name:'Erika',title:'Celadon Gym Leader',badge:'Rainbow',style:'Grass sustain',team:['Bulbasaur','Venusaur']},
+ {id:'koga',name:'Koga',title:'Fuchsia Gym Leader',badge:'Soul',style:'Poison and ambushes',team:['Gengar','Nidoqueen','Nidoking']},
+ {id:'sabrina',name:'Sabrina',title:'Saffron Gym Leader',badge:'Marsh',style:'Psychic precision',team:['Alakazam','Gengar']},
+ {id:'blaine',name:'Blaine',title:'Cinnabar Gym Leader',badge:'Volcano',style:'Relentless fire',team:['Ninetales','Rapidash','Arcanine']},
+ {id:'giovanni',name:'Giovanni',title:'Viridian Gym Leader',badge:'Earth',style:'Heavy ground attacks',team:['Nidoqueen','Nidoking','Rhydon']},
+ {id:'bug',name:'Bug Catcher',title:'Forest Trainer',style:'Fast close-range attacks',team:['Scyther','Pinsir']},
+ {id:'hiker',name:'Hiker',title:'Mountain Trainer',style:'Bulky rock defenses',team:['Golem','Rhydon']},
+ {id:'lass',name:'Lass',title:'Route Trainer',style:'Agile skirmishers',team:['Eevee','Ninetales']},
+ {id:'swimmer',name:'Swimmer',title:'Coastal Trainer',style:'Water volleys',team:['Squirtle','Vaporeon','Gyarados']},
+ {id:'blackbelt',name:'Black Belt',title:'Dojo Trainer',style:'Physical pressure',team:['Machamp','Pinsir','Snorlax']},
+ {id:'ace',name:'Ace Trainer',title:'Elite Exhibition',style:'Mixed-type coverage',team:['Jolteon','Lapras','Dragonite']},
+ {id:'rival',name:'Rival',title:'Starter Showdown',style:'Three fully evolved starters',team:['Venusaur','Charizard','Blastoise']}
+];
+let arenaMode='teams',squad=['Pikachu','Charizard','Blastoise'],editMember=0,trainerId='brock',teamMatch=null,teamTransition=null,teamLoading=false,matchSerial=0;
+const earnedBadges=new Set();
+function chosenTrainer(){return trainerCatalog.find(t=>t.id===trainerId)||trainerCatalog[0];}
+function teamInterface(){
+ $('battleMode').value=arenaMode;$('editMemberPanel').hidden=arenaMode!=='teams';$('editPokemon').innerHTML=squad.map((n,i)=>`<option value="${i}">${i+1}. ${n}</option>`).join('');$('editPokemon').value=String(editMember);$('editPokemon').disabled=running||teamLoading;$('teamPanel').hidden=arenaMode!=='teams';$('trainerPanel').hidden=arenaMode!=='teams';$('bossPanel').hidden=arenaMode==='teams';
+ for(let i=0;i<6;i++){$('teamSlot'+i).innerHTML=(i?'<option value="">Empty slot</option>':'')+Object.keys(species).filter(n=>!species[n].bossOnly).map(n=>`<option value="${n}">${n}</option>`).join('');$('teamSlot'+i).value=squad[i]||'';$('teamSlot'+i).disabled=running||teamLoading;}
+ const trainer=chosenTrainer();$('trainer').value=trainer.id;$('trainer').disabled=running||teamLoading;$('battleMode').disabled=running||teamLoading;
+ $('trainerInfo').textContent=trainer.title+' - '+trainer.style;
+ $('trainerTeam').textContent=trainer.team.join(' → ');
+ $('badgeCase').textContent='Gym badges this session: '+(earnedBadges.size?Array.from(earnedBadges).join(' · '):'0 / 8');
+ $('teamSummary').textContent=arenaMode==='teams'?(teamMatch?teamMatch.party.map((n,i)=>n+(i<teamMatch.playerIndex||(i===teamMatch.playerIndex&&p?.hp<=0)?' ✕':i===teamMatch.playerIndex?' ●':' ○')).join('  '):squad.join(' → ')):'Single boss exhibition';
+ $('opponentSummary').textContent=arenaMode==='teams'?(teamMatch?teamMatch.opponents.map((n,i)=>n+(i<teamMatch.bossIndex||(i===teamMatch.bossIndex&&b?.hp<=0)?' ✕':i===teamMatch.bossIndex?' ●':' ○')).join('  '):trainer.name+': '+trainer.team.join(' → ')):'One Pokémon on each side';
+}
+function changeTeamSlot(index,name){if(running||teamLoading)return;const previous=squad[index];const other=squad.indexOf(name);if(other>=0&&other!==index)squad[other]=previous||'';squad[index]=name;squad=squad.filter(Boolean);editMember=Math.min(index,squad.length-1);selected=squad[editMember];loadout();}
+function updateTeamSummary(){if(arenaMode!=='teams')return;
+ $('teamSummary').textContent=teamMatch.party.map((n,i)=>n+(i<teamMatch.playerIndex||(i===teamMatch.playerIndex&&p?.hp<=0)?' ✕':i===teamMatch.playerIndex?' ●':' ○')).join('  ');
+ $('opponentSummary').textContent=chosenTrainer().name+': '+teamMatch.opponents.map((n,i)=>n+(i<teamMatch.bossIndex||(i===teamMatch.bossIndex&&b?.hp<=0)?' ✕':i===teamMatch.bossIndex?' ●':' ○')).join('  ');
+}
+function resetExchange(){shots=[];zones=[];sparks=[];texts=[];playerFields=[];playerPulses=[];playerCast=null;castLock=0;dodgeCD=Math.max(0,dodgeCD);bossCD=2.2;phase=b.hp<b.max*.25?3:b.hp<b.max*.5?2:1;p.vx=p.vy=p.moveX=p.moveY=b.vx=b.vy=b.moveX=b.moveY=0;p.x=310;p.y=390;b.x=815;b.y=370;b.dash=null;b.windup=0;b.recovery=0;view.reset?.();}
+function completeTeamSwitch(){
+ const t=teamTransition;if(!t)return;const serial=matchSerial;
+ if(t.playerDown)teamMatch.playerIndex++;if(t.bossDown)teamMatch.bossIndex++;
+ const playerName=teamMatch.party[teamMatch.playerIndex],bossName=teamMatch.opponents[teamMatch.bossIndex];
+ function apply(){if(serial!==matchSerial)return;teamLoading=false;
+  if(t.playerDown){selected=playerName;equipped=[...(savedKits[selected]||species[selected].kit)];p=entity(selected,310,390);dodgeCD=0;}
+  if(t.bossDown){$('boss').value=bossName;b=entity(bossName,815,370,true);}
+  teamTransition=null;resetExchange();refreshFighter();matchup();hud();updateTeamSummary();$('overlay').style.display='none';$('state').textContent=paused?'SIMULATION PAUSED':'TEAM BATTLE IN PROGRESS';notify((t.playerDown?playerName:chosenTrainer().name+' sends out '+bossName)+' enters the arena');
+ }
+ if(view.prepare){teamLoading=true;$('state').textContent='PREPARING NEXT POKÉMON';view.prepare([playerName,bossName]).then(apply).catch(error=>{if(serial!==matchSerial)return;teamLoading=false;running=false;teamTransition=null;teamInterface();showOverlay('Could not prepare the next Pokémon',error.message+'<br>Start again to retry.');});}else apply();
+}
+
 const arenaScale=Math.sqrt(3);
 
 const bounds={x:550-492*arenaScale,y:377-255*arenaScale,w:984*arenaScale,h:510*arenaScale};
 
 function effectiveness(type,types){return types.reduce((n,t)=>n*(typeChart[type]?.[t]??1),1);}
 
-function entity(name,x,y,boss=false){const s=species[name],st=s.stats;return{name,...s,x,y,dx:1,dy:0,vx:0,vy:0,moveX:0,moveY:0,hp:(st[0]+75)*(boss?3:1),max:(st[0]+75)*(boss?3:1),cooldowns:[0,0,0,0],guard:0,guardMax:1,haste:0,root:0,burn:0,burnTick:1,marks:{},combo:0,comboUntil:0,stun:0,inv:0,slow:0,poison:0,poisonTick:1,attackSerial:0,r:boss?34:22,boss,speed:160+st[5]*1.25,attackCount:0};}
+function entity(name,x,y,boss=false){const s=species[name],st=s.stats;return{name,...s,x,y,dx:1,dy:0,vx:0,vy:0,moveX:0,moveY:0,hp:(st[0]+75)*(boss&&arenaMode==='boss'?3:1),max:(st[0]+75)*(boss&&arenaMode==='boss'?3:1),cooldowns:[0,0,0,0],guard:0,guardMax:1,haste:0,root:0,burn:0,burnTick:1,marks:{},combo:0,comboUntil:0,stun:0,inv:0,slow:0,poison:0,poisonTick:1,attackSerial:0,r:boss?34:22,boss,speed:160+st[5]*1.25,attackCount:0};}
 
 function setup(){view.reset?.();p=entity(selected,310,390);b=entity($('boss').value,815,370,true);shots=[];sparks=[];zones=[];texts=[];time=0;castLock=0;playerCast=null;playerPulses=[];playerFields=[];dodgeCD=0;bossCD=2.2;phase=1;demoClock=0;$('pause').textContent='Ⅱ';hud();}
 
@@ -26,13 +75,13 @@ function roster(){
 
  $('roster').innerHTML='';
 
- for(const [name,s]of Object.entries(species).filter(([,s])=>!s.bossOnly)){const el=document.createElement('button');el.textContent=name;el.style.setProperty?.('--fighter',s.color);el.title=name+' · '+s.role;el.setAttribute('aria-label',name);el.setAttribute('aria-pressed',String(name===selected));el.className=name===selected?'active':'';el.onclick=()=>{selected=name;loadout();};$('roster').append(el);}
+ for(const [name,s]of Object.entries(species).filter(([,s])=>!s.bossOnly)){const el=document.createElement('button');el.textContent=name;el.style.setProperty?.('--fighter',s.color);el.title=name+' · '+s.role;el.setAttribute('aria-label',name);el.setAttribute('aria-pressed',String(name===selected));el.className=name===selected?'active':'';el.onclick=()=>{if(running||teamLoading)return;if(arenaMode==='teams')changeTeamSlot(editMember,name);else{selected=name;loadout();}};$('roster').append(el);}
 
 }
 
 let modelRequest=0;
 
-function prepareBattleModels(){if(!view.prepare)return;const request=++modelRequest;const needed=[selected,$('boss').value];if(needed.every(n=>view.assets.has(n))){for(const id of ['start','demo','overlayStart'])$(id).disabled=false;return;}for(const id of ['start','demo','overlayStart'])$(id).disabled=true;showOverlay('Preparing your opponent…','Loading its local model and animation rig.');view.ready=view.prepare(needed).then(()=>{if(request!==modelRequest)return;for(const id of ['start','demo','overlayStart'])$(id).disabled=false;showOverlay('Ready for '+$('boss').value+'?',species[$('boss').value].description);}).catch(error=>{if(request===modelRequest)showOverlay('Model could not load',error.message);});}
+function prepareBattleModels(){if(!view.prepare)return;const request=++modelRequest;const needed=[...new Set([selected,arenaMode==='teams'?squad[0]:selected,$('boss').value])];if(needed.every(n=>view.assets.has(n))){for(const id of ['start','demo','overlayStart'])$(id).disabled=false;return;}for(const id of ['start','demo','overlayStart'])$(id).disabled=true;showOverlay('Preparing your opponent…','Loading its local model and animation rig.');view.ready=view.prepare(needed).then(()=>{if(request!==modelRequest)return;for(const id of ['start','demo','overlayStart'])$(id).disabled=false;showOverlay(arenaMode==='teams'?'Challenge '+chosenTrainer().name+'?':'Ready for '+$('boss').value+'?',arenaMode==='teams'?'Elimination match. The next teammate enters after a knockout.':species[$('boss').value].description);}).catch(error=>{if(request===modelRequest)showOverlay('Model could not load',error.message);});}
 
 const moveKeys=['1','2','3','4'];
 
@@ -40,11 +89,13 @@ const savedKits={};
 
 let equipped=[],castLock=0,playerCast=null,playerPulses=[],playerFields=[];
 
-function loadout(){if(view.inspection)closeModelView();running=false;paused=false;demo=false;roster();const s=species[selected];equipped=[...(savedKits[selected]||s.kit)];$('fighterName').textContent=selected;$('type').textContent=s.type.join(' / ').toUpperCase();$('fighterStyle').textContent=s.role+' · '+s.description;$('stats').innerHTML=s.stats.map((v,i)=>`<div>${['HP','ATTACK','DEFENSE','SP. ATK','SP. DEF','SPEED'][i]}<b>${v}</b></div>`).join('');
+function refreshFighter(){roster();const s=species[selected];equipped=[...(savedKits[selected]||s.kit)];$('fighterName').textContent=selected;$('type').textContent=s.type.join(' / ').toUpperCase();$('fighterStyle').textContent=s.role+' · '+s.description;$('stats').innerHTML=s.stats.map((v,i)=>`<div>${['HP','ATTACK','DEFENSE','SP. ATK','SP. DEF','SPEED'][i]}<b>${v}</b></div>`).join('');
 
  for(let slot=0;slot<4;slot++){$('move'+slot).innerHTML=s.kit.map(n=>`<option>${n}</option>`).join('');$('move'+slot).value=equipped[slot];}
 
- setup();matchup();showOverlay('Choose the matchup. Watch it unfold.',s.role+'<br>Movement, dodging, and all four moves are automatic.');$('state').textContent='READY WHEN YOU ARE';$('bossStyle').textContent=species[$('boss').value].description+' Patterns: '+species[$('boss').value].bossProfile.patterns.join(' · ');prepareBattleModels();}
+}
+function loadout(){if(view.inspection)closeModelView();matchSerial++;running=false;paused=false;demo=false;teamLoading=false;teamTransition=null;teamMatch=null;if(arenaMode==='teams')$('boss').value=chosenTrainer().team[0];refreshFighter();teamInterface();
+ setup();matchup();showOverlay('Choose the matchup. Watch it unfold.',species[selected].role+'<br>Movement, dodging, and all four moves are automatic.');$('state').textContent='READY WHEN YOU ARE';$('bossStyle').textContent=species[$('boss').value].description+' Patterns: '+species[$('boss').value].bossProfile.patterns.join(' · ');prepareBattleModels();}
 
 function matchup(){
 
@@ -58,13 +109,24 @@ function matchup(){
 
 function rearrangeMove(slot,name){if(running){$('move'+slot).value=equipped[slot];return;}const previous=equipped[slot],other=equipped.indexOf(name);equipped[slot]=name;if(other>=0&&other!==slot){equipped[other]=previous;$('move'+other).value=previous;}savedKits[selected]=[...equipped];matchup();hud();}
 
-function start(auto=true){if(view.inspection)closeModelView();if(view.assets&&(!view.assets.has(selected)||!view.assets.has($('boss').value))){const player=selected,opponent=$('boss').value;view.prepare([player,opponent]).then(()=>{if(selected===player&&$('boss').value===opponent)start(auto);}).catch(error=>notify(error.message));return;}demo=auto;setup();running=true;paused=false;$('overlay').style.display='none';$('state').textContent='AUTO BATTLE IN PROGRESS';notify(selected+' is choosing its moves - enjoy the battle');}
+function start(auto=true){
+ if(teamLoading)return;if(view.inspection)closeModelView();
+ const lead=arenaMode==='teams'?squad[0]:selected,opponent=arenaMode==='teams'?chosenTrainer().team[0]:$('boss').value;
+ if(view.assets&&(!view.assets.has(lead)||!view.assets.has(opponent))){
+  const serial=++matchSerial;running=false;teamLoading=true;teamTransition=null;teamInterface();$('state').textContent='PREPARING MATCH';
+  view.prepare([lead,opponent]).then(()=>{if(serial!==matchSerial)return;teamLoading=false;start(auto);}).catch(error=>{if(serial!==matchSerial)return;teamLoading=false;teamInterface();showOverlay('Could not prepare this matchup',error.message);});return;
+ }
+ matchSerial++;teamTransition=null;teamLoading=false;
+ if(arenaMode==='teams'){selected=lead;$('boss').value=opponent;teamMatch={party:[...squad],opponents:[...chosenTrainer().team],playerIndex:0,bossIndex:0};refreshFighter();}
+ demo=auto;setup();running=true;paused=false;teamInterface();$('overlay').style.display='none';$('state').textContent=arenaMode==='teams'?'TEAM BATTLE IN PROGRESS':'AUTO BATTLE IN PROGRESS';notify(selected+' is choosing its moves - enjoy the battle');
+}
 
-function showOverlay(title,desc){$('overlay').style.display='flex';$('overlay').querySelector('h2').textContent=title;$('overlay').querySelector('p').innerHTML=desc;$('overlayStart').textContent='Enter arena ↗';}
+
+function showOverlay(title,desc){$('overlay').style.display='flex';$('overlay').querySelector('h2').textContent=title;$('overlay').querySelector('p').innerHTML=desc;$('overlayStart').textContent='Start auto battle';}
 
 function notify(text){$('toast').textContent=text;toastTime=3;}
 
-function hud(){if(!p)return;$('playerLabel').textContent=p.name.toUpperCase();$('bossLabel').innerHTML=b.name.toUpperCase()+' <b>BOSS</b>';$('playerHP').textContent=`${Math.ceil(p.hp)} / ${p.max} HP`;$('bossHP').textContent=`${Math.ceil(b.hp)} / ${b.max} HP`;$('playerBar').style.width=p.hp/p.max*100+'%';$('bossBar').style.width=b.hp/b.max*100+'%';$('guardBar').style.width=(p.guard>0?p.guard/p.guardMax*100:0)+'%';
+function hud(){if(!p)return;$('playerLabel').textContent=p.name.toUpperCase();$('bossLabel').innerHTML=b.name.toUpperCase()+' <b>'+(arenaMode==='teams'?chosenTrainer().name.toUpperCase():'BOSS')+'</b>';$('playerHP').textContent=`${Math.ceil(p.hp)} / ${p.max} HP`;$('bossHP').textContent=`${Math.ceil(b.hp)} / ${b.max} HP`;$('playerBar').style.width=p.hp/p.max*100+'%';$('bossBar').style.width=b.hp/b.max*100+'%';$('guardBar').style.width=(p.guard>0?p.guard/p.guardMax*100:0)+'%';
 
  $('statusText').textContent=(playerCast?'CASTING '+playerCast.name+' · ':'')+'DODGE '+(dodgeCD>0?dodgeCD.toFixed(1)+'s':'READY')+(p.guard>0?' · GUARDED':'')+(p.haste>0?' · HASTE':'')+(p.slow>0?' · SLOWED':'')+(p.root>0?' · ROOTED':'')+(p.poison>0?' · POISONED':'')+(p.burn>0?' · BURNING':'')+(p.combo>0&&p.comboUntil>=time?' · COMBO '+p.combo:'');
 
@@ -186,7 +248,7 @@ function hit(target,shot){
 
  const a=shot.owner,m=shot.m,mult=effectiveness(m.type,target.type),stab=a.type.includes(m.type)?1.5:1,atk=a.stats[m.physical?1:3]+20,def=target.stats[m.physical?2:4]+20;
 
- let damage=((22*m.power*atk/def)/50+2)*stab*mult*(a.boss?.48:.7)*(shot.damageScale??1);
+ let damage=((22*m.power*atk/def)/50+2)*stab*mult*(a.boss&&arenaMode==='boss'?.48:.7)*(shot.damageScale??1);
 
  if(shot.charged&&m.name==='Electro Ball')damage*=Math.min(1.5,Math.max(.65,a.stats[5]/target.stats[5]));
 
@@ -236,12 +298,24 @@ function hit(target,shot){
 
  burst(target.x,target.y,colors[m.type]||'#fff',16);texts.push({x:target.x,y:target.y-38,text:`−${Math.round(damage)}${mult>1?' SUPER!':mult<1?' RESIST':''}`,c:mult>1?'#fff2a0':'#ffffff',life:1});
 
- if(b.hp<=0)finish(true);else if(p.hp<=0)finish(false);return damage;
+ if(b.hp<=0||p.hp<=0)finish(b.hp<=0);return damage;
 
 }
 
-function finish(win){running=false;$('state').textContent=win?'FIELD TRIAL COMPLETE':'FIELD TRIAL ENDED';showOverlay(win?'Victory in the Verdant Ring.':'Down, but not out.',`${win?'Boss defeated':'Your Pokémon fainted'} in ${time.toFixed(1)} seconds.<br>Try a new fighter, loadout, or boss.`);$('overlayStart').textContent='Battle again ↗';}
-
+function finish(win){
+ if(arenaMode==='teams'&&teamMatch){
+  if(teamTransition||teamLoading)return;
+  const playerDown=p.hp<=0,bossDown=b.hp<=0;
+  const playerOut=playerDown&&teamMatch.playerIndex+1>=teamMatch.party.length,bossOut=bossDown&&teamMatch.bossIndex+1>=teamMatch.opponents.length;
+  if(!playerOut&&!bossOut){teamTransition={remaining:1.8,playerDown,bossDown};shots=[];zones=[];playerFields=[];playerPulses=[];playerCast=null;$('state').textContent='KNOCKOUT - NEXT POKÉMON';notify((bossDown?b.name:p.name)+' fainted. A teammate is entering.');hud();return;}
+  running=false;const draw=playerOut&&bossOut;win=bossOut&&!playerOut;
+  if(win&&chosenTrainer().badge)earnedBadges.add(chosenTrainer().badge);
+  $('state').textContent=draw?'TEAM MATCH DRAW':win?'TRAINER DEFEATED':'YOUR TEAM FAINTED';
+  showOverlay(draw?'Both teams are out.':win?'You defeated '+chosenTrainer().name+'!':chosenTrainer().name+' wins.',(win&&chosenTrainer().badge?chosenTrainer().badge+' Badge earned!<br>':'')+'Team match finished in '+time.toFixed(1)+' seconds.');
+  teamInterface();hud();$('overlayStart').textContent='Rematch';return;
+ }
+ running=false;teamInterface();$('state').textContent=win?'FIELD TRIAL COMPLETE':'FIELD TRIAL ENDED';showOverlay(win?'Victory in the Verdant Ring.':'Down, but not out.',`${win?'Boss defeated':'Your Pokémon fainted'} in ${time.toFixed(1)} seconds.`);$('overlayStart').textContent='Battle again';
+}
 // Boss movement and attack scheduling. All decisions use simulation time, so pause
 
 // freezes movement, queued attacks, telegraphs, and recovery together.
@@ -482,11 +556,11 @@ function autoPilot(dt){
 
  p.dx=ax;p.dy=ay;
 
- const meleeCount=equipped.filter(n=>moves[n].kind==='melee'||moves[n].kind==='radial').length;
+ const viable=equipped.map(n=>moves[n]).filter(m=>m.kind!=='heal'&&effectiveness(m.type,b.type)>0);const meleeCount=viable.filter(m=>m.kind==='melee'||m.kind==='radial').length;const closeRange=meleeCount>=2||!viable.some(m=>m.kind!=='melee'&&m.kind!=='radial');
 
- const desired=meleeCount>=2?80:310,radial=Math.max(-1,Math.min(1,(d-desired)/100));
+ const desired=closeRange?80:310,radial=Math.max(-1,Math.min(1,(d-desired)/100));
 
- const orbit=(meleeCount>=2?.18:.55)*(Math.floor(time/5)%2?1:-1);
+ const orbit=(closeRange?.18:.55)*(Math.floor(time/5)%2?1:-1);
 
  let mx=ax*radial-ay*orbit,my=ay*radial+ax*orbit;
 
@@ -516,6 +590,7 @@ function autoPilot(dt){
 
   else score=-1;
 
+  if(m.kind!=='heal'){const multiplier=effectiveness(m.type,b.type);if(multiplier===0)score=-1;else if(score>0)score+=(Math.min(2,multiplier)-1)*15;}
   if(score>0&&m.detonate){const mark=b.marks[m.detonate];score+=mark&&mark.expires>=time?mark.stacks*20:-15;}
 
   if(score>0&&m.mark)score+=15;
@@ -536,7 +611,7 @@ function autoPilot(dt){
 
 function update(dt){
 
- if(!running||paused)return;time+=dt;updatePlayerAbilities(dt);dodgeCD-=dt;bossCD-=dt;toastTime-=dt;if(toastTime<=0)$('toast').textContent='';
+ if(!running||paused||teamLoading)return;if(teamTransition){time+=dt;teamTransition.remaining-=dt;if(teamTransition.remaining<=0)completeTeamSwitch();return;}time+=dt;updatePlayerAbilities(dt);if(teamTransition||!running)return;dodgeCD-=dt;bossCD-=dt;toastTime-=dt;if(toastTime<=0)$('toast').textContent='';
 
  const nextPhase=b.hp<b.max*.25?3:b.hp<b.max*.5?2:1;if(nextPhase>phase){phase=nextPhase;notify(b.name+' · PHASE '+phase+' — faster, denser patterns!');}
 
@@ -571,6 +646,7 @@ function update(dt){
  zones=zones.filter(z=>z.t>0);
 
  for(const s of shots){
+  if(teamTransition||!running)break;
 
   if(s.delay>0){s.delay-=dt;continue;}
 
@@ -616,15 +692,17 @@ function closeModelView(){view.closeInspection?.();$('modelControls').hidden=tru
 
 window.addEventListener('blur',()=>{if(running&&!paused)pause();});
 
-$('start').onclick=()=>{start();document.activeElement.blur();};$('overlayStart').onclick=()=>{start();document.activeElement.blur();};$('demo').onclick=()=>{selected='Pikachu';loadout();start(true);document.activeElement.blur();};$('pause').onclick=()=>{pause();document.activeElement.blur();};$('boss').onchange=loadout;for(let i=0;i<4;i++){$('move'+i).onchange=()=>rearrangeMove(i,$('move'+i).value);}
+$('start').onclick=()=>{start();document.activeElement.blur();};$('overlayStart').onclick=()=>{start();document.activeElement.blur();};$('demo').onclick=()=>{if(arenaMode==='teams'){squad=['Pikachu','Charizard','Blastoise'];editMember=0;}selected='Pikachu';loadout();start(true);document.activeElement.blur();};$('pause').onclick=()=>{pause();document.activeElement.blur();};$('boss').onchange=loadout;for(let i=0;i<4;i++){$('move'+i).onchange=()=>rearrangeMove(i,$('move'+i).value);}
 
 $('inspect').onclick=()=>{if(!view.assets?.size)return;if(view.inspection){closeModelView();return;}inspectResume=running&&!paused;if(inspectResume)pause();$('inspectSpecies').value=selected;view.inspect(selected,$('inspectAnimation').value);$('modelControls').hidden=false;canvas.parentElement.classList.add('inspecting');document.activeElement.blur();};$('closeInspect').onclick=closeModelView;for(const id of ['inspectSpecies','inspectAnimation'])$(id).onchange=()=>{const result=view.inspect($('inspectSpecies').value,$('inspectAnimation').value);if(result?.then){notify('Loading local model…');result.then(()=>notify('Model ready'));}};
 
 let dragX=null;canvas.addEventListener?.('pointerdown',e=>{if(view.inspection){dragX=e.clientX;canvas.setPointerCapture(e.pointerId);}});canvas.addEventListener?.('pointermove',e=>{if(dragX!==null&&view.inspection){view.inspection.angle+=(e.clientX-dragX)*.012;dragX=e.clientX;}});canvas.addEventListener?.('pointerup',()=>dragX=null);canvas.addEventListener?.('pointercancel',()=>dragX=null);canvas.addEventListener?.('wheel',e=>{if(view.inspection){e.preventDefault();view.inspection.zoom=Math.max(.7,Math.min(1.7,view.inspection.zoom+e.deltaY*.001));}},{passive:false});
 
+$('editPokemon').onchange=()=>{if(running||teamLoading)return;editMember=Number($('editPokemon').value);selected=squad[editMember];loadout();};
+$('trainer').innerHTML=trainerCatalog.map(t=>`<option value="${t.id}">${t.name} - ${t.title}</option>`).join('');$('trainer').onchange=()=>{trainerId=$('trainer').value;loadout();};$('battleMode').onchange=()=>{arenaMode=$('battleMode').value;loadout();};for(let i=0;i<6;i++)$('teamSlot'+i).onchange=()=>changeTeamSlot(i,$('teamSlot'+i).value);
 $('boss').innerHTML=Object.keys(species).map(name=>`<option value="${name}">${name}${species[name].bossOnly?' ★':''} · ${species[name].type.join(' / ')}</option>`).join('');$('boss').value='Blastoise';$('inspectSpecies').innerHTML=Object.keys(species).map(name=>`<option>${name}</option>`).join('');loadout();requestAnimationFrame(frame);
 
-window.arenaSnapshot=()=>({running,paused,demo,time,player:{name:p.name,x:p.x,y:p.y,hp:p.hp,cooldowns:[...p.cooldowns],moves:[...equipped],dx:p.dx,dy:p.dy},boss:{name:b.name,hp:b.hp},projectiles:shots.length,roster:Object.values(species).filter(s=>!s.bossOnly).length,bosses:Object.keys(species).length,pattern:b.pattern||null});
+window.arenaSnapshot=()=>({running,paused,demo,time,player:{name:p.name,x:p.x,y:p.y,hp:p.hp,cooldowns:[...p.cooldowns],moves:[...equipped],dx:p.dx,dy:p.dy},boss:{name:b.name,hp:b.hp},projectiles:shots.length,roster:Object.values(species).filter(s=>!s.bossOnly).length,bosses:Object.keys(species).length,pattern:b.pattern||null,mode:arenaMode,team:teamMatch?{...teamMatch,transition:!!teamTransition,loading:teamLoading,trainer:chosenTrainer().name}:null});
 
 
 

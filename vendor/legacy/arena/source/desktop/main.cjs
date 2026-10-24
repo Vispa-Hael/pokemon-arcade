@@ -39,11 +39,11 @@ async function runSmoke(window) {
   try {
     const report = await window.webContents.executeJavaScript(`(async () => {
       const check=(value,message)=>{if(!value)throw new Error(message)};
-      await view.ready;
+      await view.ready;arenaMode='boss';loadout();await view.ready;
       check(typeof require==='undefined','Renderer must be sandboxed');
       check(Object.keys(species).length===32,'32 bosses required');
       check(Object.values(species).filter(s=>!s.bossOnly).length===12,'Playable roster must remain twelve');
-      check(view.assets.size<=2,'Startup must load only initial fighters');
+      check(view.assets.size<=3,'Startup must load only initial matchup models');
       start();const openingX=p.x;for(let i=0;i<90;i++)update(1/60);check(p.x!==openingX&&p.attackSerial>0,'Autonomous movement and attacks failed');
       pause();const frozen=time;update(.1);check(time===frozen,'Pause failed');pause();
       start();for(let i=0;i<3600&&running;i++){update(1/60);if(i%60===0)draw(1);}check(b.hp<b.max,'Auto battle failed to deal damage');
@@ -81,7 +81,17 @@ async function runSmoke(window) {
       demo=false;p.moveX=p.moveY=0;for(let i=0;i<90;i++){update(1/60);draw(1/60);}check(view.models.get('player').rig.current==='idle','Idle transition failed');
       pause();const mixerTime=view.models.get('player').rig.mixer.time;draw(.1);check(view.models.get('player').rig.mixer.time===mixerTime,'Animation pause failed');pause();
       $('inspect').onclick();check(paused&&view.inspection,'Studio must pause');await view.inspect('Mewtwo','idle');view.renderInspection(.04);$('closeInspect').onclick();check(!paused&&!view.inspection,'Studio exit failed');
+      arenaMode='teams';trainerId='brock';squad=['Pikachu','Charizard','Blastoise'];selected=squad[0];loadout();await view.ready;start(false);
+      check(b.max===b.stats[0]+75,'Trainer HP multiplier failed');const survivorHealth=71;p.hp=survivorHealth;b.hp=0;finish(true);update(2);await view.ready;
+      // Model preparation is asynchronous; wait on its actual render assets.
+      for(let wait=0;wait<100&&teamLoading;wait++)await new Promise(r=>setTimeout(r,25));
+      check(!teamLoading&&teamMatch.bossIndex===1&&b.name==='Rhydon'&&p.hp===survivorHealth,'Trainer substitution failed');draw(1/60);
+      p.hp=0;finish(false);update(2);for(let wait=0;wait<100&&teamLoading;wait++)await new Promise(r=>setTimeout(r,25));
+      check(p.name==='Charizard'&&teamMatch.playerIndex===1,'Player team substitution failed');draw(1/60);
+      check(view.models.get('player').name==='Charizard'&&view.models.get('boss').name==='Rhydon','Substituted models did not render');
+      arenaMode='boss';
       await view.prepare(['Pikachu','Mewtwo']);$('boss').value='Mewtwo';loadout();start();p.x=350;p.y=430;b.x=780;b.y=350;bossAttack();draw(1/60);
+      arenaMode='teams';trainerId='brock';squad=['Pikachu','Charizard','Blastoise'];selected='Pikachu';loadout();await view.ready;start();for(let i=0;i<90&&running;i++)update(1/60);draw(1/60);
       return {ok:true,sample,validatedBosses:validated,rendering:view.diagnostics(),finalState:arenaSnapshot()};
     })()`);
     if (process.env.ARENA_CAPTURE) {

@@ -1,3 +1,17 @@
+# Pokémon Arena — trainer teams (0.8.0)
+
+Build a squad of up to six Pokémon from the twelve playable fighters, choose a Gym Leader or trainer, and start the automatic battle. Edit each member’s four-move loadout before starting. Duplicate selections swap slots instead of duplicating Pokémon.
+
+Eight Kanto Gym Leaders and seven other trainers have themed exhibition squads made from our existing 32 local models. **These are adapted squads, not exact historical game teams.** The full opponent lineup is visible before the match.
+
+After a knockout, the next Pokémon enters following a brief intermission. The survivor keeps health, statuses, and cooldowns. Incoming Pokémon start fresh. Both sides switch after a double knockout; simultaneous final knockouts are a draw. Trainer Pokémon have normal HP rather than the single-boss mode’s triple HP. Pause also freezes the substitution timer. Model loading pauses simulation until the next pair is ready.
+
+Gym wins award one of eight badges for the current app session; badges reset on reload. Single boss exhibitions remain available through the format selector. No keyboard battle controls are needed.
+
+Windows: `dist/Pokemon-Arena-0.8.0-Windows.exe`.
+
+## Earlier development notes
+
 # Pokémon Arena — auto-battle simulator (0.7.0)
 
 Choose a fighter, four equipped moves, and one of 32 bosses. Press **Start auto battle** and watch. Both Pokémon move, dodge, and attack automatically; no keyboard or click-to-attack controls. The AI manages range, cooldowns, marks, healing, and incoming danger. Pause, camera, and Model View remain spectator tools. The four move cards show cooldowns and casting status.

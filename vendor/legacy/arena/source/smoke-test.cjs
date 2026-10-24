@@ -4,7 +4,7 @@ function el(id){return elements[id]??=({style:{setProperty(){}},value:id==='boss
 const sandbox={Arena3D:{battleCatalog:JSON.parse(fs.readFileSync('src/roster.json','utf8')),View:class{render(){}setCamera(){}}},console,Math,document:{getElementById:el,createElement:()=>el(Math.random()),activeElement:{tagName:'BODY'}},window:{addEventListener:(n,cb)=>listeners[n]=cb},requestAnimationFrame(){}};
 vm.createContext(sandbox);vm.runInContext(fs.readFileSync('game.js','utf8'),sandbox);
 const run=code=>vm.runInContext(code,sandbox);
-function begin(name='Pikachu',boss='Blastoise'){run(`selected=${JSON.stringify(name)};$('boss').value=${JSON.stringify(boss)};loadout();start(false);bossCD=999;b.bossProfile={...b.bossProfile,speed:0,evade:0};p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=620;b.y=370;`)}
+function begin(name='Pikachu',boss='Blastoise'){run(`arenaMode='boss';selected=${JSON.stringify(name)};$('boss').value=${JSON.stringify(boss)};loadout();start(false);bossCD=999;b.bossProfile={...b.bossProfile,speed:0,evade:0};p.x=400;p.y=370;p.dx=1;p.dy=0;b.x=620;b.y=370;`)}
 const step=(n=1)=>run(`for(let i=0;i<${n}&&running;i++)update(1/60)`);
 begin();assert(run('castAbility(0)'),'Cast quick move');assert.strictEqual(run('shots[0].dx'),1,'Directional projectile');assert(!run('castAbility(0)'),'Cooldown prevents repeat');assert(run('p.cooldowns[0]>0&&p.cooldowns.slice(1).every(c=>c===0)'),'Cooldowns are independent');step(8);assert(run('castAbility(1)'),'Different slot works while first cools down');
 begin();run('castAbility(2)');assert(run('shots.length>0'),'Heavy move works immediately with no energy requirement');assert(!run("'energy' in p"),'Energy gate removed');
@@ -70,3 +70,29 @@ assert(!fs.readFileSync('index.html','utf8').includes('<kbd>'),'No keyboard cont
 console.log('PASS: all 12 fighters move, attack and deal damage automatically; no keyboard controls');
 
 assert(!/WASD|PRESS P|take control|SAMPLE RUN/.test(fs.readFileSync('game.js','utf8')),'No stale manual-play instructions');
+
+function teamBegin(id='brock',party=['Pikachu','Charizard','Blastoise']){run(`arenaMode='teams';trainerId=${JSON.stringify(id)};squad=${JSON.stringify(party)};selected=squad[0];editMember=0;loadout();start(false);`)}
+assert.strictEqual(run('trainerCatalog.filter(t=>t.badge).length'),8,'Eight gym leaders');
+assert.strictEqual(run('trainerCatalog.length'),15,'Seven trainer challenges');
+for(const trainer of run('trainerCatalog.map(t=>({id:t.id,team:t.team}))')){
+ for(const name of trainer.team)assert(run('!!species['+JSON.stringify(name)+']'),trainer.id+': all models exist');
+ teamBegin(trainer.id);assert(run('b.max===b.stats[0]+75'),'Trainer Pokémon use normal HP');
+ let replacements=0;while(run('running')&&replacements<7){run('b.hp=0;finish(true);');step(120);replacements++;}
+ assert(!run('running'),'Match ends only when trainer team is exhausted');
+ assert(run('teamMatch.bossIndex')===trainer.team.length-1,'All trainer teammates entered');
+}
+teamBegin();run('p.hp=71;p.cooldowns[0]=2;b.hp=0;finish(true);');const old=run('b.name');step(30);assert(run('b.name')===old,'KO has a visible intermission');
+run('pause()');const transitionTime=run('teamTransition.remaining');step(60);assert.strictEqual(run('teamTransition.remaining'),transitionTime,'Pause freezes team substitution');run('pause()');step(90);
+assert.strictEqual(run('p.hp'),71,'Survivor health carries across rounds');assert(run('p.cooldowns[0]>0'),'Survivor cooldown carries across substitution');assert(run('teamMatch.bossIndex===1&&b.hp===b.max'),'New opponent starts healthy');
+teamBegin();run('b.hp=55;p.hp=0;finish(false);');step(120);assert(run("p.name==='Charizard'&&p.hp===p.max&&b.hp===55"),'Next player member enters while opponent keeps health');
+teamBegin('erika',['Pikachu']);run('p.hp=0;finish(false)');assert(!run('running')&&run("$('state').textContent==='YOUR TEAM FAINTED'"),'Final player knockout ends the match');
+teamBegin('erika',['Pikachu']);run('teamMatch.bossIndex=1;p.hp=0;b.hp=0;finish(true)');assert(run("$('state').textContent==='TEAM MATCH DRAW'"),'Simultaneous final knockout is a draw');
+teamBegin();run('p.hp=0;b.hp=0;finish(true)');step(120);assert(run("teamMatch.playerIndex===1&&teamMatch.bossIndex===1&&p.name==='Charizard'&&b.name==='Rhydon'"),'Both sides switch after a double knockout');
+teamBegin();run('start();');step(7200);assert(!run('running'),'Unassisted full team battle reaches a result');
+console.log('PASS: 15 trainer teams, eight badge challenges, consecutive knockouts, survivor HP, pause, double knockout, and automatic full match');
+
+teamBegin('brock',['Pikachu']);run('start();');step(360);
+assert(run('p.cooldowns[0]===0&&p.cooldowns[2]===0&&p.cooldowns[3]===0'),'AI avoids Electric moves against Ground immunity');
+assert(run('b.hp<b.max'),'AI closes in to use a viable physical move against immune targets');
+run("running=false;changeTeamSlot(0,'Charizard');");assert(run("squad[0]==='Charizard'"),'Team builder can replace a member');
+console.log('PASS: team AI chooses viable attacks instead of firing into type immunity');
